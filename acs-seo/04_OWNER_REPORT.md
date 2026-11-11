@@ -1,5 +1,10 @@
 # ACS SEO Package Factory — Owner Report
 
+> **SUPERSEDED on 11 November 2026 by `07_OWNER_DECISION_REPORT.md`.** Three of this report's
+> central claims — the 82-URL inventory, the C-1 cannibalisation cluster and the client-side
+> rendering conclusion — were investigated and withdrawn. See `06_CRAWL_RECONCILIATION.md`.
+> Kept as the record of what was believed on 20 September and what was built on it.
+
 **20 September 2026 · one page · four decisions needed, one of them by 24 September**
 
 ## Where things stand
