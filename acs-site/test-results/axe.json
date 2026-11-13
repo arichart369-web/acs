@@ -1,0 +1,91 @@
+{
+  "ranAt": "2026-11-13T17:37:17.170Z",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21aa",
+    "wcag22aa"
+  ],
+  "pages": [
+    {
+      "route": "/",
+      "width": 360,
+      "violations": []
+    },
+    {
+      "route": "/products/",
+      "width": 360,
+      "violations": []
+    },
+    {
+      "route": "/products/1950g/",
+      "width": 360,
+      "violations": []
+    },
+    {
+      "route": "/products/tc22/",
+      "width": 360,
+      "violations": []
+    },
+    {
+      "route": "/basket/",
+      "width": 360,
+      "violations": []
+    },
+    {
+      "route": "/enquiry/",
+      "width": 360,
+      "violations": []
+    },
+    {
+      "route": "/company/",
+      "width": 360,
+      "violations": []
+    },
+    {
+      "route": "/status/",
+      "width": 360,
+      "violations": []
+    },
+    {
+      "route": "/",
+      "width": 1280,
+      "violations": []
+    },
+    {
+      "route": "/products/",
+      "width": 1280,
+      "violations": []
+    },
+    {
+      "route": "/products/1950g/",
+      "width": 1280,
+      "violations": []
+    },
+    {
+      "route": "/products/tc22/",
+      "width": 1280,
+      "violations": []
+    },
+    {
+      "route": "/basket/",
+      "width": 1280,
+      "violations": []
+    },
+    {
+      "route": "/enquiry/",
+      "width": 1280,
+      "violations": []
+    },
+    {
+      "route": "/company/",
+      "width": 1280,
+      "violations": []
+    },
+    {
+      "route": "/status/",
+      "width": 1280,
+      "violations": []
+    }
+  ]
+}

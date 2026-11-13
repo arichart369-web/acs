@@ -1,0 +1,317 @@
+{
+  "_source": "https://www.asiancoding.com/catalog-data.js?v=5",
+  "_fetched": ["2026-10-23", "2026-11-13"],
+  "_note": "Transcribed verbatim from the live catalogue. Not edited, not supplemented. The live file's dead ACS links (acsUrl, and url on five entries) are kept here as data and filtered at render time, not deleted, so this file stays a faithful snapshot.",
+  "categories": [
+    { "id": "printers", "title": "Barcode printers", "thai": "เครื่องพิมพ์บาร์โค้ด", "image": "category-printer.jpg" },
+    { "id": "scanners", "title": "Barcode scanners", "thai": "เครื่องอ่านบาร์โค้ด", "image": "category-scanner.jpg" },
+    { "id": "labels", "title": "Labels", "thai": "ฉลากบาร์โค้ด", "image": "category-labels.jpg" },
+    { "id": "ribbons", "title": "Ribbons", "thai": "ริบบอนพิมพ์บาร์โค้ด", "image": "category-ribbons.jpg" },
+    { "id": "rfid", "title": "RFID solutions", "thai": "โซลูชัน RFID", "image": "category-rfid.jpg" },
+    { "id": "mobile", "title": "Mobile computers", "thai": "โมบายคอมพิวเตอร์", "image": "category-mobile.jpg" }
+  ],
+  "products": [
+    {
+      "id": "1950g",
+      "brand": "Honeywell",
+      "name": "Xenon XP 1950g",
+      "category": "scanners",
+      "image": "product-honeywell-1950g.png",
+      "description": "A general-purpose handheld scanner for everyday barcode capture.",
+      "tag": "Barcode scanning",
+      "keywords": "เครื่องอ่านบาร์โค้ด เครื่องสแกน 1d 2d retail handheld ฮันนี่เวล เครื่องสแกนบาร์โค้ด เครื่องอ่านคิวอาร์โค้ด",
+      "features": [
+        "อ่านบาร์โค้ด 1D/2D",
+        "เชื่อมต่อแบบมีสาย; USB, RS-232, RS-485 และ Keyboard Wedge ตามชุดอุปกรณ์",
+        "มาตรฐานการป้องกัน IP52",
+        "ช่วงอุณหภูมิใช้งาน 0–50 °C"
+      ],
+      "url": "https://automation.honeywell.com/us/en/products/productivity-solutions/barcode-scanners/general-purpose-handheld/xenon-xp-1950g-general-duty-scanner",
+      "featured": true,
+      "thaiTitle": "เครื่องสแกนบาร์โค้ดแบบมือถือ",
+      "thaiDescription": "เครื่องอ่านบาร์โค้ดสำหรับงานรับสินค้า ตรวจนับ และจุดขาย",
+      "kind": "model",
+      "referenceLabel": "ดูข้อมูลจากผู้ผลิต",
+      "acsUrl": "https://www.asiancoding.com/ads/barcode-scanner",
+      "evidence": "acs_named_model"
+    },
+    {
+      "id": "te200",
+      "brand": "TSC",
+      "name": "TE200 Desktop Printer",
+      "category": "printers",
+      "image": "product-te200.png",
+      "description": "Compact label printing for product identification and daily operations.",
+      "tag": "Desktop label printing",
+      "keywords": "เครื่องพิมพ์บาร์โค้ด thermal transfer desktop te 200 tsc labels ทีเอสซี เครื่องพิมพ์สติกเกอร์ เครื่องพิมพ์ฉลาก",
+      "features": [
+        "TE series desktop printer",
+        "Thermal-transfer label printing",
+        "Select labels and ribbons to suit your application"
+      ],
+      "url": "https://apac.tscprinters.com/en/products/te-series-4-inch-performance-desktop-printers",
+      "featured": true,
+      "thaiTitle": "เครื่องพิมพ์ฉลากแบบตั้งโต๊ะ",
+      "thaiDescription": "เครื่องพิมพ์ฉลากขนาดกะทัดรัด สำหรับฉลากสินค้าและงานประจำวัน",
+      "kind": "model",
+      "referenceLabel": "ดูข้อมูลจากผู้ผลิต",
+      "evidence": "manufacturer_reference"
+    },
+    {
+      "id": "zt411",
+      "brand": "Zebra",
+      "name": "ZT411 Industrial Printer",
+      "category": "printers",
+      "image": "category-printer.jpg",
+      "description": "Industrial barcode printing for warehouse and manufacturing workflows.",
+      "tag": "Industrial label printing",
+      "keywords": "เครื่องพิมพ์บาร์โค้ด warehouse industrial zt400 zt 411 ซีบร้า ซีบรา เครื่องพิมพ์ฉลากอุตสาหกรรม",
+      "features": [
+        "ZT400 series industrial printer",
+        "For warehouse and production labeling",
+        "Ask ACS about the configuration your workflow needs"
+      ],
+      "url": "https://www.zebra.com/us/en/products/printers/industrial/zt400-series.html",
+      "featured": true,
+      "thaiTitle": "เครื่องพิมพ์ฉลากอุตสาหกรรม",
+      "thaiDescription": "เครื่องพิมพ์บาร์โค้ดสำหรับงานคลังสินค้าและสายการผลิต",
+      "kind": "model",
+      "referenceLabel": "ดูข้อมูลจากผู้ผลิต",
+      "evidence": "manufacturer_reference"
+    },
+    {
+      "id": "tc22",
+      "brand": "Zebra",
+      "name": "TC22 / TC27 Mobile Computers",
+      "category": "mobile",
+      "image": "product-tc22.jpg",
+      "description": "Handheld mobility for connected teams and on-the-go data capture.",
+      "tag": "Enterprise mobility",
+      "keywords": "โมบายคอมพิวเตอร์ handheld pda android retail inventory tc 22 tc 27 ซีบร้า ซีบรา เครื่องตรวจนับสินค้า คอมพิวเตอร์พกพา",
+      "features": [
+        "TC22 / TC27 handheld mobile computer family",
+        "For mobile data capture and enterprise workflows",
+        "Choose connectivity and accessories with ACS"
+      ],
+      "url": "https://www.zebra.com/us/en/products/mobile-computers/handheld/tc2x-series.html",
+      "featured": true,
+      "thaiTitle": "โมบายคอมพิวเตอร์ TC22 / TC27",
+      "thaiDescription": "อุปกรณ์พกพาสำหรับทีมหน้างานและการเก็บข้อมูลสินค้า",
+      "kind": "family",
+      "referenceLabel": "ดูข้อมูลจากผู้ผลิต",
+      "evidence": "manufacturer_reference"
+    },
+    {
+      "id": "m510",
+      "brand": "Brady",
+      "name": "M510 Portable Label Printer",
+      "category": "printers",
+      "image": "brady-m510.jpg",
+      "description": "Portable thermal-transfer label printer with a built-in keyboard for equipment, wire and workplace identification.",
+      "thaiTitle": "เครื่องพิมพ์ฉลากพกพา Brady M510",
+      "thaiDescription": "เครื่องพิมพ์ฉลากพกพาพร้อมแป้นพิมพ์ สำหรับงานระบุอุปกรณ์ สายไฟ และพื้นที่ปฏิบัติงาน",
+      "tag": "Portable label printing",
+      "keywords": "Brady M510 M 510 เบรดี้ เครื่องพิมพ์ฉลากพกพา สายไฟ อุปกรณ์",
+      "kind": "model",
+      "evidence": "acs_named_model",
+      "features": [
+        "พิมพ์แบบ Thermal Transfer ความละเอียด 300 dpi",
+        "รองรับฉลากกว้างสูงสุด 1.5 นิ้ว (38.1 มม.)",
+        "ใช้งานผ่านแป้นพิมพ์หรือเชื่อมต่อ PC; รองรับ Brady Workstation"
+      ],
+      "url": "https://www.bradyid.com/label-printers/portable/m510-portable-industrial-label-printer-pid-176546",
+      "acsUrl": "https://www.asiancoding.com/brady/printers/m510",
+      "referenceLabel": "ดูข้อมูลจากผู้ผลิต"
+    },
+    {
+      "id": "ds3600",
+      "brand": "Zebra",
+      "name": "DS3600 Series Scanners",
+      "category": "scanners",
+      "image": "category-scanner.jpg",
+      "description": "Industrial handheld scanning for demanding operational environments.",
+      "tag": "Industrial scanning",
+      "keywords": "เครื่องสแกน เครื่องอ่านบาร์โค้ด rugged warehouse industrial ds 3600 ซีบร้า ซีบรา เครื่องสแกนบาร์โค้ด เครื่องสแกนอุตสาหกรรม",
+      "features": [
+        "Industrial handheld scanner family",
+        "For demanding scanning environments",
+        "Ask ACS to match the scanner to your barcode and distance"
+      ],
+      "url": "https://www.zebra.com/ap/en/products/scanners/ultra-rugged-scanners/ds3600-series.html",
+      "thaiTitle": "เครื่องสแกนบาร์โค้ดอุตสาหกรรม",
+      "thaiDescription": "ตระกูลเครื่องสแกนสำหรับสภาพแวดล้อมในคลังสินค้าและโรงงาน",
+      "kind": "family",
+      "referenceLabel": "ดูข้อมูลจากผู้ผลิต",
+      "evidence": "manufacturer_reference"
+    },
+    {
+      "id": "rfid",
+      "brand": "RFID SOLUTIONS",
+      "name": "Handheld RFID Systems",
+      "category": "rfid",
+      "image": "category-rfid.jpg",
+      "description": "Explore RFID data capture for inventory, assets and traceability.",
+      "tag": "RFID data capture",
+      "keywords": "rfid uhf radio inventory tracking อาร์เอฟไอดี สินค้าคงคลัง เครื่องอ่าน RFID เครื่องอ่านอาร์เอฟไอดี ระบบ RFID",
+      "features": [
+        "Handheld RFID readers and workflow planning",
+        "Inventory and asset-identification applications",
+        "Reader, tag and system compatibility should be confirmed"
+      ],
+      "url": "https://www.asiancoding.com/rfid-systems",
+      "thaiTitle": "เครื่องอ่าน RFID แบบมือถือ",
+      "thaiDescription": "วางแผนเลือกเครื่องอ่าน แท็ก และระบบติดตามสินค้าหรือทรัพย์สิน",
+      "kind": "solution",
+      "referenceLabel": "ดูข้อมูลหมวดสินค้าจาก ACS"
+    },
+    {
+      "id": "labels",
+      "brand": "PRINTING SUPPLIES",
+      "name": "Barcode Labels & Tags",
+      "category": "labels",
+      "image": "category-labels.jpg",
+      "description": "Match label materials and formats to your printer and application.",
+      "tag": "Labels & materials",
+      "keywords": "สติกเกอร์ ฉลาก บาร์โค้ด supplies sticker roll thermal สติกเกอร์ สติ๊กเกอร์ ฉลากบาร์โค้ด ฉลากสินค้า",
+      "features": [
+        "Labels and tags for barcode identification",
+        "Match material, adhesive and format to the environment",
+        "Confirm printer compatibility and quantities with ACS"
+      ],
+      "url": "https://www.asiancoding.com/barcode-printers",
+      "thaiTitle": "ฉลากและสติกเกอร์บาร์โค้ด",
+      "thaiDescription": "เลือกชนิดวัสดุ กาว และขนาดฉลากให้ตรงกับเครื่องพิมพ์และการใช้งาน",
+      "kind": "supplies",
+      "referenceLabel": "ดูข้อมูลหมวดสินค้าจาก ACS"
+    },
+    {
+      "id": "wax-ribbons",
+      "brand": "PRINTING SUPPLIES",
+      "name": "Wax Ribbon",
+      "category": "ribbons",
+      "image": "category-ribbons.jpg",
+      "description": "กลุ่มริบบอนที่ ACS อ้างอิงสำหรับบริบทฉลากกระดาษ",
+      "tag": "Wax Ribbon",
+      "keywords": "ริบบอน thermal transfer supplies ริบบอนพิมพ์บาร์โค้ด ผ้าหมึก หมึกพิมพ์ ribbon Wax Ribbon ริบบอนแว็กซ์",
+      "features": [
+        "เลือกตามวัสดุฉลาก ขนาด และเครื่องพิมพ์",
+        "ตรวจสภาพการเก็บและข้อมูลที่ต้องพิมพ์"
+      ],
+      "url": "https://www.asiancoding.com/barcode-ribbons",
+      "thaiTitle": "ริบบอนแว็กซ์",
+      "thaiDescription": "กลุ่มริบบอนที่ ACS อ้างอิงสำหรับบริบทฉลากกระดาษ",
+      "kind": "supplies",
+      "referenceLabel": "ดูข้อมูลริบบอนจาก ACS",
+      "evidence": "acs_named_family"
+    },
+    {
+      "id": "wax-resin-ribbons",
+      "brand": "PRINTING SUPPLIES",
+      "name": "Wax-Resin Ribbon",
+      "category": "ribbons",
+      "image": "category-ribbons.jpg",
+      "description": "กลุ่มริบบอน Wax-Resin สำหรับพิจารณาร่วมกับวัสดุฉลากและสภาพการเก็บ",
+      "tag": "Wax-Resin Ribbon",
+      "keywords": "ริบบอน thermal transfer supplies ริบบอนพิมพ์บาร์โค้ด ผ้าหมึก หมึกพิมพ์ ribbon Wax-Resin Ribbon ริบบอนแว็กซ์เรซิน",
+      "features": [
+        "ตรวจชนิดริบบอนและวัสดุฉลาก",
+        "ระบุรุ่นเครื่องพิมพ์และสภาพแวดล้อมก่อนเลือก"
+      ],
+      "url": "https://www.asiancoding.com/barcode-ribbons",
+      "thaiTitle": "ริบบอนแว็กซ์เรซิน",
+      "thaiDescription": "กลุ่มริบบอน Wax-Resin สำหรับพิจารณาร่วมกับวัสดุฉลากและสภาพการเก็บ",
+      "kind": "supplies",
+      "referenceLabel": "ดูข้อมูลริบบอนจาก ACS",
+      "evidence": "acs_named_family"
+    },
+    {
+      "id": "resin-ribbons",
+      "brand": "PRINTING SUPPLIES",
+      "name": "Resin Ribbon",
+      "category": "ribbons",
+      "image": "category-ribbons.jpg",
+      "description": "กลุ่มริบบอนที่ ACS อ้างอิงสำหรับบริบทฉลากสังเคราะห์",
+      "tag": "Resin Ribbon",
+      "keywords": "ริบบอน thermal transfer supplies ริบบอนพิมพ์บาร์โค้ด ผ้าหมึก หมึกพิมพ์ ribbon Resin Ribbon ริบบอนเรซิน",
+      "features": [
+        "เลือกตามฉลากสังเคราะห์และวัสดุริบบอน",
+        "ตรวจความกว้าง รุ่นเครื่องพิมพ์ และสภาพพื้นที่"
+      ],
+      "url": "https://www.asiancoding.com/barcode-ribbons",
+      "thaiTitle": "ริบบอนเรซิน",
+      "thaiDescription": "กลุ่มริบบอนที่ ACS อ้างอิงสำหรับบริบทฉลากสังเคราะห์",
+      "kind": "supplies",
+      "referenceLabel": "ดูข้อมูลริบบอนจาก ACS",
+      "evidence": "acs_named_family"
+    },
+    {
+      "id": "1960g",
+      "brand": "Honeywell",
+      "name": "Xenon Ultra 1960g",
+      "category": "scanners",
+      "image": "product-honeywell-1960g.jpg",
+      "description": "A corded 1D/2D scanner for retail counters and barcode capture.",
+      "tag": "Corded 1D/2D scanning",
+      "keywords": "1960g xenon ultra ฮันนี่เวล เครื่องอ่านบาร์โค้ด เครื่องสแกน 1d 2d qr แบบมีสาย จุดขาย",
+      "features": [
+        "อ่านบาร์โค้ด 1D/2D ด้วย Area Imager",
+        "เชื่อมต่อแบบมีสาย; USB, RS-232 หรือ Keyboard Wedge ตามชุดที่เลือก",
+        "มีรุ่นอ่านระยะมาตรฐาน (SR) และความหนาแน่นสูง (HD)",
+        "มาตรฐานการป้องกัน IP52"
+      ],
+      "url": "https://automation.honeywell.com/us/en/products/productivity-solutions/barcode-scanners/general-purpose-handheld/xenon-ultra-1960-scanner",
+      "featured": false,
+      "thaiTitle": "เครื่องสแกนบาร์โค้ด Honeywell Xenon Ultra 1960g",
+      "thaiDescription": "เครื่องอ่านบาร์โค้ดแบบมีสายสำหรับจุดขาย รับสินค้า และอ่านรหัสบนฉลาก",
+      "kind": "model",
+      "referenceLabel": "ดูข้อมูลจาก Honeywell",
+      "evidence": "manufacturer_reference"
+    },
+    {
+      "id": "zd421",
+      "brand": "Zebra",
+      "name": "ZD421 Desktop Printer",
+      "category": "printers",
+      "image": "product-zebra-zd421.jpg",
+      "description": "A desktop label printer with direct thermal and thermal transfer configurations.",
+      "tag": "Desktop label printing",
+      "keywords": "zd421 zebra ซีบร้า เครื่องพิมพ์บาร์โค้ด เครื่องพิมพ์ฉลาก บาร์โค้ด ตั้งโต๊ะ thermal transfer direct thermal",
+      "features": [
+        "เลือกรุ่น Direct Thermal หรือ Thermal Transfer ให้ตรงกับวัสดุฉลาก",
+        "ความละเอียด 203 หรือ 300 dpi ตามรุ่นย่อย",
+        "รองรับงานฉลากสินค้า ติดตามทรัพย์สิน และรับ–ส่งสินค้า",
+        "การเชื่อมต่อไร้สายเป็นตัวเลือกตาม configuration; ยืนยันชุดอุปกรณ์ก่อนสั่ง"
+      ],
+      "url": "https://www.zebra.com/us/en/products/printers/desktop/zd400-series/zd421.html",
+      "featured": false,
+      "thaiTitle": "เครื่องพิมพ์ฉลากตั้งโต๊ะ Zebra ZD421",
+      "thaiDescription": "เครื่องพิมพ์ฉลากสำหรับงานสินค้าและจัดส่ง เลือกเทคโนโลยีพิมพ์และความละเอียดตามการใช้งาน",
+      "kind": "model",
+      "referenceLabel": "ดูข้อมูลจาก Zebra",
+      "evidence": "manufacturer_reference"
+    },
+    {
+      "id": "ds2208",
+      "brand": "Zebra",
+      "name": "DS2208 Handheld Scanner",
+      "category": "scanners",
+      "image": "product-zebra-ds2208.jpg",
+      "description": "A corded handheld 1D/2D imager for point-of-sale workflows.",
+      "tag": "Retail barcode scanning",
+      "keywords": "ds2208 zebra ซีบร้า เครื่องสแกนบาร์โค้ด เครื่องอ่านคิวอาร์โค้ด 1d 2d pos จุดขาย",
+      "features": [
+        "อ่านบาร์โค้ด 1D และ 2D",
+        "เครื่องสแกนแบบมีสาย (DS2208); ไม่ใช่รุ่นไร้สาย DS2278",
+        "เซนเซอร์ภาพ 640 × 480 พิกเซล",
+        "เหมาะกับงานจุดขาย คูปอง และระบบสมาชิก; ยืนยันสายและขาตั้งในชุดที่สั่ง"
+      ],
+      "url": "https://www.zebra.com/us/en/products/scanners/general-purpose-handheld-scanners/ds2200-series/ds2208.html",
+      "featured": false,
+      "thaiTitle": "เครื่องสแกนบาร์โค้ดแบบมีสาย Zebra DS2208",
+      "thaiDescription": "เครื่องอ่านบาร์โค้ด 1D/2D สำหรับเคาน์เตอร์ขายสินค้าและระบบสมาชิก",
+      "kind": "model",
+      "referenceLabel": "ดูข้อมูลจาก Zebra",
+      "evidence": "manufacturer_reference"
+    }
+  ]
+}

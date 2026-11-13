@@ -1,0 +1,189 @@
+{
+  "ranAt": "2026-11-13T17:37:17.170Z",
+  "base": "http://127.0.0.1:4173",
+  "routes": 20,
+  "passed": 30,
+  "failed": 0,
+  "checks": [
+    {
+      "id": "E01",
+      "name": "all 20 routes return 200 with exactly one h1 and a title",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E02",
+      "name": "14 product routes with 14 distinct h1",
+      "pass": true,
+      "detail": "14 routes, 14 distinct"
+    },
+    {
+      "id": "E03",
+      "name": "an unknown product returns 404, not a soft 200",
+      "pass": true,
+      "detail": "status 404"
+    },
+    {
+      "id": "E04",
+      "name": "robots.txt closes a non-live build to crawlers",
+      "pass": true,
+      "detail": "User-agent: * Disallow: / "
+    },
+    {
+      "id": "E05",
+      "name": "no internal link is dead (26 distinct targets)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E06",
+      "name": "no page links to a dead asiancoding.com URL from the catalogue data",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E07",
+      "name": "product page text is in the HTML with JavaScript disabled",
+      "pass": true,
+      "detail": "เครื่องพิมพ์ฉลากแบบตั้งโต๊ะ"
+    },
+    {
+      "id": "E08",
+      "name": "catalogue lists all 14 products with JavaScript disabled",
+      "pass": true,
+      "detail": "14 cards"
+    },
+    {
+      "id": "E09",
+      "name": "unsourced spec figures are omitted and the page says how many",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E10",
+      "name": "catalogue filter and search narrow the list (scanners 4, \"TE 200\" 1, ริบบอน 3, nonsense 0)",
+      "pass": true,
+      "detail": "4/1/3/0"
+    },
+    {
+      "id": "E11",
+      "name": "a category link from the home page pre-selects the filter",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E12",
+      "name": "a product added on its page appears in the basket",
+      "pass": true,
+      "detail": "1 item(s)"
+    },
+    {
+      "id": "E13",
+      "name": "both consent boxes start unticked",
+      "pass": true,
+      "detail": "[false,false]"
+    },
+    {
+      "id": "E14",
+      "name": "the enquiry carries the basket items over",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E15",
+      "name": "an empty step is refused; each error is announced and tied to its field",
+      "pass": true,
+      "detail": "[true,true]"
+    },
+    {
+      "id": "E16",
+      "name": "focus moves to the heading of the new step",
+      "pass": true,
+      "detail": "step-2-title"
+    },
+    {
+      "id": "E17",
+      "name": "submitting without service consent is refused",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E18",
+      "name": "marketing consent is not required to submit",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E19",
+      "name": "the store boundary refuses the write and the screen says so",
+      "pass": true,
+      "detail": "not_connected: ยังไม่ได้ส่งคำขอนี้ — ระบบรับคำขอยังไม่เชื่อมต่อ ข้อมูลที่กร"
+    },
+    {
+      "id": "E20",
+      "name": "no success message appears without a success",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E21",
+      "name": "after a filled form, storage, cookies and the URL hold nothing personal",
+      "pass": true,
+      "detail": "{\"local\":{},\"session\":{\"acs:basket:v1\":\"[\\\"te200\\\"]\"},\"cookie\":\"\"}"
+    },
+    {
+      "id": "E22",
+      "name": "the only stored key is the basket of product ids",
+      "pass": true,
+      "detail": "{\"local\":{},\"session\":{\"acs:basket:v1\":\"[\\\"te200\\\"]\"},\"cookie\":\"\"}"
+    },
+    {
+      "id": "E23",
+      "name": "no request leaves the site and nothing is POSTed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E24",
+      "name": "skip link is the first focus stop, and Enter advances a step without submitting",
+      "pass": true,
+      "detail": "skip-link / step2=true"
+    },
+    {
+      "id": "E25-360",
+      "name": "no horizontal page scroll at 360px on any of 20 routes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E26-360",
+      "name": "no serious or critical accessibility violation at 360px (8 page types)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E27-360",
+      "name": "standalone controls are at least 44px tall at 360px",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E25-1280",
+      "name": "no horizontal page scroll at 1280px on any of 20 routes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E26-1280",
+      "name": "no serious or critical accessibility violation at 1280px (8 page types)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E27-1280",
+      "name": "standalone controls are at least 44px tall at 1280px",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}
