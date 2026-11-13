@@ -1,6 +1,7 @@
 import { SITE } from '../config/site';
 import { isIndexable, statusConfig, systemBadgeText, type StatusConfig } from '../config/status';
 import { esc } from './html';
+import { jsonLdScript, type JsonLd } from './structured';
 
 export interface PageMeta {
   path: string;
@@ -15,6 +16,8 @@ export interface PageMeta {
    * basket, the status page, the error page, a placeholder. Defaults to true.
    */
   index?: boolean;
+  /** Structured data describing the page. Emitted as JSON-LD in the head. */
+  jsonLd?: JsonLd[];
 }
 
 const NAV: Array<{ key: NonNullable<PageMeta['nav']>; href: string; label: string }> = [
@@ -51,6 +54,7 @@ ${robots}
 <meta name="theme-color" content="#07376b">
 <link rel="stylesheet" href="/assets/site.css">
 ${meta.script ? '<script type="module" src="/assets/app.js"></script>' : ''}
+${(meta.jsonLd ?? []).map(jsonLdScript).join('\n')}
 </head>
 <body>
 <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>

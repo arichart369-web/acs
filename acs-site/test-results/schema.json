@@ -1,0 +1,224 @@
+{
+  "ranAt": "2026-11-13T18:56:57.553Z",
+  "variant": "live (rendered in memory, never written to dist/)",
+  "validation": "structural only: parsed and checked against this project's rules, not run through an external validator",
+  "passed": 7,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "every JSON-LD block parses",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "model and family pages carry exactly one Product; solution and supplies pages carry none",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "each Product names itself, its brand and its own canonical URL",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no structured data carries a price, an offer, availability, a rating or a review",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no structured data states a spec figure",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "every product page carries one breadcrumb trail",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no other page claims to be a Product",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "products": [
+    {
+      "id": "1950g",
+      "kind": "model",
+      "product": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "Xenon XP 1950g",
+        "alternateName": "เครื่องสแกนบาร์โค้ดแบบมือถือ",
+        "description": "เครื่องอ่านบาร์โค้ดสำหรับงานรับสินค้า ตรวจนับ และจุดขาย",
+        "brand": {
+          "@type": "Brand",
+          "name": "Honeywell"
+        },
+        "category": "Barcode scanners",
+        "url": "https://www.asiancoding.com/products/1950g/"
+      }
+    },
+    {
+      "id": "te200",
+      "kind": "model",
+      "product": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "TE200 Desktop Printer",
+        "alternateName": "เครื่องพิมพ์ฉลากแบบตั้งโต๊ะ",
+        "description": "เครื่องพิมพ์ฉลากขนาดกะทัดรัด สำหรับฉลากสินค้าและงานประจำวัน",
+        "brand": {
+          "@type": "Brand",
+          "name": "TSC"
+        },
+        "category": "Barcode printers",
+        "url": "https://www.asiancoding.com/products/te200/"
+      }
+    },
+    {
+      "id": "zt411",
+      "kind": "model",
+      "product": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "ZT411 Industrial Printer",
+        "alternateName": "เครื่องพิมพ์ฉลากอุตสาหกรรม",
+        "description": "เครื่องพิมพ์บาร์โค้ดสำหรับงานคลังสินค้าและสายการผลิต",
+        "brand": {
+          "@type": "Brand",
+          "name": "Zebra"
+        },
+        "category": "Barcode printers",
+        "url": "https://www.asiancoding.com/products/zt411/"
+      }
+    },
+    {
+      "id": "tc22",
+      "kind": "family",
+      "product": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "TC22 / TC27 Mobile Computers",
+        "alternateName": "โมบายคอมพิวเตอร์ TC22 / TC27",
+        "description": "อุปกรณ์พกพาสำหรับทีมหน้างานและการเก็บข้อมูลสินค้า",
+        "brand": {
+          "@type": "Brand",
+          "name": "Zebra"
+        },
+        "category": "Mobile computers",
+        "url": "https://www.asiancoding.com/products/tc22/"
+      }
+    },
+    {
+      "id": "m510",
+      "kind": "model",
+      "product": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "M510 Portable Label Printer",
+        "alternateName": "เครื่องพิมพ์ฉลากพกพา Brady M510",
+        "description": "เครื่องพิมพ์ฉลากพกพาพร้อมแป้นพิมพ์ สำหรับงานระบุอุปกรณ์ สายไฟ และพื้นที่ปฏิบัติงาน",
+        "brand": {
+          "@type": "Brand",
+          "name": "Brady"
+        },
+        "category": "Barcode printers",
+        "url": "https://www.asiancoding.com/products/m510/"
+      }
+    },
+    {
+      "id": "ds3600",
+      "kind": "family",
+      "product": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "DS3600 Series Scanners",
+        "alternateName": "เครื่องสแกนบาร์โค้ดอุตสาหกรรม",
+        "description": "ตระกูลเครื่องสแกนสำหรับสภาพแวดล้อมในคลังสินค้าและโรงงาน",
+        "brand": {
+          "@type": "Brand",
+          "name": "Zebra"
+        },
+        "category": "Barcode scanners",
+        "url": "https://www.asiancoding.com/products/ds3600/"
+      }
+    },
+    {
+      "id": "rfid",
+      "kind": "solution",
+      "product": null
+    },
+    {
+      "id": "labels",
+      "kind": "supplies",
+      "product": null
+    },
+    {
+      "id": "wax-ribbons",
+      "kind": "supplies",
+      "product": null
+    },
+    {
+      "id": "wax-resin-ribbons",
+      "kind": "supplies",
+      "product": null
+    },
+    {
+      "id": "resin-ribbons",
+      "kind": "supplies",
+      "product": null
+    },
+    {
+      "id": "1960g",
+      "kind": "model",
+      "product": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "Xenon Ultra 1960g",
+        "alternateName": "เครื่องสแกนบาร์โค้ด Honeywell Xenon Ultra 1960g",
+        "description": "เครื่องอ่านบาร์โค้ดแบบมีสายสำหรับจุดขาย รับสินค้า และอ่านรหัสบนฉลาก",
+        "brand": {
+          "@type": "Brand",
+          "name": "Honeywell"
+        },
+        "category": "Barcode scanners",
+        "url": "https://www.asiancoding.com/products/1960g/"
+      }
+    },
+    {
+      "id": "zd421",
+      "kind": "model",
+      "product": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "ZD421 Desktop Printer",
+        "alternateName": "เครื่องพิมพ์ฉลากตั้งโต๊ะ Zebra ZD421",
+        "description": "เครื่องพิมพ์ฉลากสำหรับงานสินค้าและจัดส่ง เลือกเทคโนโลยีพิมพ์และความละเอียดตามการใช้งาน",
+        "brand": {
+          "@type": "Brand",
+          "name": "Zebra"
+        },
+        "category": "Barcode printers",
+        "url": "https://www.asiancoding.com/products/zd421/"
+      }
+    },
+    {
+      "id": "ds2208",
+      "kind": "model",
+      "product": {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "DS2208 Handheld Scanner",
+        "alternateName": "เครื่องสแกนบาร์โค้ดแบบมีสาย Zebra DS2208",
+        "description": "เครื่องอ่านบาร์โค้ด 1D/2D สำหรับเคาน์เตอร์ขายสินค้าและระบบสมาชิก",
+        "brand": {
+          "@type": "Brand",
+          "name": "Zebra"
+        },
+        "category": "Barcode scanners",
+        "url": "https://www.asiancoding.com/products/ds2208/"
+      }
+    }
+  ]
+}

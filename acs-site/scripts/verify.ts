@@ -3,13 +3,18 @@
  * build to dist/. The shipped build is demo and closed to crawlers, so these
  * rules can only be proven on a variant rendered in memory.
  *
- * Writes test-results/canonical.json and test-results/sitemap.json.
+ * Writes test-results/canonical.json, sitemap.json and schema.json.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { resolveAddress } from '../src/build/address';
 import { absoluteUrl, canonicalOf, htmlIsIndexable, renderSite } from '../src/build/site';
+import { staleRoutes, type Versions } from '../src/build/versions';
+import { products } from '../src/data/catalog';
+import versionsJson from '../src/data/page-versions.json';
+import { extractFigures } from '../src/rules/figures';
+import { allStrings, extractJsonLd, forbiddenKeysIn, hasProductMarkup } from '../src/render/structured';
 import { statusConfig, type StatusConfig } from '../src/config/status';
 import { evidenceRecords } from '../src/data/evidence';
 
@@ -18,13 +23,15 @@ mkdirSync(out, { recursive: true });
 const asOf = new Date().toISOString().slice(0, 10);
 
 const live: StatusConfig = { system: 'live', features: { ...statusConfig.features } };
-const site = renderSite(live, evidenceRecords, asOf);
+const versions = versionsJson as Versions;
+const site = renderSite(live, evidenceRecords, asOf, versions);
 const demo = renderSite(statusConfig, evidenceRecords, asOf);
 const fileSet = new Set(site.files.keys());
 
 interface Check { name: string; pass: boolean; detail: string }
 const canonicalChecks: Check[] = [];
 const sitemapChecks: Check[] = [];
+const schemaChecks: Check[] = [];
 const add = (list: Check[], name: string, pass: boolean, detail = '') => {
   list.push({ name, pass, detail });
   console.log(`${pass ? 'PASS' : 'FAIL'}  ${name}${pass || !detail ? '' : `  — ${detail}`}`);
@@ -77,9 +84,52 @@ add(sitemapChecks, 'robots.txt names the sitemap, and the sitemap is there', sit
 add(sitemapChecks, 'robots.txt of a live build does not close the site', !/^Disallow: \/\s*$/m.test(robots));
 add(sitemapChecks, 'the shipped demo build: no sitemap, robots closes the site', !demo.files.has('sitemap.xml') && /^Disallow: \/\s*$/m.test(demo.files.get('robots.txt') ?? ''));
 
-const failed = [...canonicalChecks, ...sitemapChecks].filter((c) => !c.pass);
+/* ---------- lastmod: FR-20 ---------- */
+const indexablePages = site.pages.filter((p) => p.indexable).map((p) => ({ route: p.route, html: site.files.get(p.file) ?? '' }));
+const lastmods = [...xml.matchAll(/<url><loc>([^<]*)<\/loc>(?:<lastmod>([^<]*)<\/lastmod>)?<\/url>/g)].map((m) => ({ loc: m[1] ?? '', lastmod: m[2] ?? '' }));
+const undated = lastmods.filter((u) => !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(u.lastmod));
+add(sitemapChecks, 'every sitemap entry carries a lastmod timestamp', lastmods.length === locs.length && undated.length === 0, undated.map((u) => u.loc).join(' '));
+const stale = staleRoutes(versions, indexablePages);
+add(sitemapChecks, 'the version manifest matches the current content of every indexable page (else run `npm run stamp`)', stale.length === 0, stale.join(' '));
+const extra = Object.keys(versions).filter((route) => !indexablePages.some((p) => p.route === route));
+add(sitemapChecks, 'the manifest holds no page that is no longer indexable', extra.length === 0, extra.join(' '));
+
+/* ---------- structured data: T17 ---------- */
+const schemaRows = products.map((p) => {
+  const html = site.files.get(`products/${p.id}/index.html`) ?? '';
+  let blocks: Record<string, unknown>[] = [];
+  let parseError = '';
+  try { blocks = extractJsonLd(html); } catch (error) { parseError = String(error); }
+  const productBlocks = blocks.filter((b) => b['@type'] === 'Product');
+  const crumbs = blocks.filter((b) => b['@type'] === 'BreadcrumbList');
+  return { id: p.id, kind: p.kind, expectsProduct: hasProductMarkup(p), parseError, productBlocks, crumbs, forbidden: forbiddenKeysIn(blocks), figures: allStrings(blocks).flatMap(extractFigures) };
+});
+const unparsed = schemaRows.filter((r) => r.parseError);
+add(schemaChecks, 'every JSON-LD block parses', unparsed.length === 0, unparsed.map((r) => r.id).join(' '));
+const wrongCount = schemaRows.filter((r) => r.productBlocks.length !== (r.expectsProduct ? 1 : 0));
+add(schemaChecks, 'model and family pages carry exactly one Product; solution and supplies pages carry none', wrongCount.length === 0, wrongCount.map((r) => `${r.id}(${r.productBlocks.length})`).join(' '));
+const incomplete = schemaRows.filter((r) => r.expectsProduct).filter((r) => {
+  const b = r.productBlocks[0] ?? {};
+  const brand = b.brand as Record<string, unknown> | undefined;
+  return !(b['@context'] === 'https://schema.org' && typeof b.name === 'string' && b.name && typeof b.description === 'string' && b.description
+    && brand?.['@type'] === 'Brand' && typeof brand?.name === 'string' && b.url === absoluteUrl(`/products/${r.id}/`));
+});
+add(schemaChecks, 'each Product names itself, its brand and its own canonical URL', incomplete.length === 0, incomplete.map((r) => r.id).join(' '));
+const forbidden = schemaRows.filter((r) => r.forbidden.length);
+add(schemaChecks, 'no structured data carries a price, an offer, availability, a rating or a review', forbidden.length === 0, forbidden.map((r) => `${r.id}:${r.forbidden.join(',')}`).join(' '));
+// A product name may itself end in a unit letter (1950g); that is a model number, not a figure.
+const leaked = schemaRows.map((r) => ({ id: r.id, figures: r.figures.filter((f) => !products.some((p) => p.name.includes(f))) })).filter((r) => r.figures.length);
+add(schemaChecks, 'no structured data states a spec figure', leaked.length === 0, leaked.map((r) => `${r.id}:${r.figures.join(',')}`).join(' '));
+const badCrumbs = schemaRows.filter((r) => r.crumbs.length !== 1);
+add(schemaChecks, 'every product page carries one breadcrumb trail', badCrumbs.length === 0, badCrumbs.map((r) => r.id).join(' '));
+const others = site.pages.filter((p) => !p.route.startsWith('/products/') || p.route === '/products/').filter((p) => extractJsonLd(site.files.get(p.file) ?? '').some((b) => b['@type'] === 'Product'));
+add(schemaChecks, 'no other page claims to be a Product', others.length === 0, others.map((p) => p.route).join(' '));
+
+const failed = [...canonicalChecks, ...sitemapChecks, ...schemaChecks].filter((c) => !c.pass);
 const stamp = { ranAt: new Date().toISOString(), variant: 'live (rendered in memory, never written to dist/)' };
 writeFileSync(join(out, 'canonical.json'), JSON.stringify({ ...stamp, passed: canonicalChecks.filter((c) => c.pass).length, failed: canonicalChecks.filter((c) => !c.pass).length, checks: canonicalChecks, pages: pageRows }, null, 2) + '\n');
-writeFileSync(join(out, 'sitemap.json'), JSON.stringify({ ...stamp, passed: sitemapChecks.filter((c) => c.pass).length, failed: sitemapChecks.filter((c) => !c.pass).length, checks: sitemapChecks, urls: locs }, null, 2) + '\n');
-console.log(`\n${canonicalChecks.length + sitemapChecks.length - failed.length}/${canonicalChecks.length + sitemapChecks.length} checks passed · ${locs.length} URLs in the live sitemap`);
+writeFileSync(join(out, 'sitemap.json'), JSON.stringify({ ...stamp, passed: sitemapChecks.filter((c) => c.pass).length, failed: sitemapChecks.filter((c) => !c.pass).length, checks: sitemapChecks, urls: lastmods }, null, 2) + '\n');
+writeFileSync(join(out, 'schema.json'), JSON.stringify({ ...stamp, validation: 'structural only: parsed and checked against this project\'s rules, not run through an external validator', passed: schemaChecks.filter((c) => c.pass).length, failed: schemaChecks.filter((c) => !c.pass).length, checks: schemaChecks, products: schemaRows.map((r) => ({ id: r.id, kind: r.kind, product: r.productBlocks[0] ?? null })) }, null, 2) + '\n');
+const total = canonicalChecks.length + sitemapChecks.length + schemaChecks.length;
+console.log(`\n${total - failed.length}/${total} checks passed · ${locs.length} URLs in the live sitemap`);
 process.exit(failed.length ? 1 : 0);

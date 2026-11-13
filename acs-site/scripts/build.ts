@@ -9,12 +9,13 @@ import { fileURLToPath } from 'node:url';
 import { renderSite } from '../src/build/site';
 import { isIndexable, statusConfig } from '../src/config/status';
 import { evidenceRecords } from '../src/data/evidence';
+import versions from '../src/data/page-versions.json';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
 const asOf = new Date().toISOString().slice(0, 10);
 
-const site = renderSite(statusConfig, evidenceRecords, asOf);
+const site = renderSite(statusConfig, evidenceRecords, asOf, versions);
 
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(join(dist, 'assets'), { recursive: true });

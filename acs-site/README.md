@@ -12,7 +12,8 @@ PRD: https://claude.ai/artifact/YXVU5Vr7byRo78XAD1rino
 npm install
 npm run build      # renders dist/ and writes dist/build-report.json
 npm test           # unit tests (Vitest) → test-results/unit.json
-npm run verify     # canonical + sitemap rules on a live-config variant → test-results/
+npm run verify     # canonical, sitemap and structured-data rules on a live-config variant → test-results/
+npm run stamp      # re-stamp page versions after changing page content; commit the result
 npm run e2e        # Playwright + axe against the preview server → test-results/
 npm run claims     # ACS claim scanner over the built HTML
 npm run preview    # serve dist/ on http://127.0.0.1:4173
@@ -29,8 +30,13 @@ testing a stale server from an earlier run.
 |---|---|---|---|---|
 | M0 | Skeleton: 20 pages reachable in demo mode, one status config, store boundary, evidence gate, enquiry wizard, basket | 82/82 | 30/30 | BLOCKED 0 |
 | M1 | Discoverability: one address per page, self-referencing canonical, sitemap of exactly the indexable pages, robots naming it; family pages say so | 108/108 | 34/34 | BLOCKED 0 |
+| M2a | Product structured data with no price, offer, availability or rating; sitemap `lastmod` from a committed content-hash manifest | 125/125 | 35/35 | BLOCKED 0 |
 
-M1 also runs `npm run verify`: 13/13 on a live-config variant (17 URLs in its sitemap).
+`npm run verify` on the live-config variant: 13/13 at M1, 23/23 at M2a (17 URLs in its sitemap).
+
+**M2 is only partly done.** M2a is the part that does not wait on the Owner. The rest of
+M2 — spec figures, prices, stock, category pages, the ribbon decision and the company
+page — cannot start until the material and decisions listed under "Still missing" arrive.
 
 ## Non-negotiables, and where each one lives
 
@@ -44,6 +50,8 @@ M1 also runs `npm run verify`: 13/13 on a live-config variant (17 URLs in its si
 | A build that is not live is closed to crawlers | `isIndexable()` in `src/config/status.ts` |
 | One address per page; every other spelling is a 301 | `src/build/address.ts` |
 | The sitemap lists exactly the pages whose own HTML is indexable | `src/build/site.ts` |
+| Structured data never carries a price, offer, availability, rating or review | `src/render/structured.ts` |
+| A page's `lastmod` moves only when its content does; a changed page cannot keep its old date | `src/build/versions.ts`, `src/data/page-versions.json` |
 | Catalogue data is a verbatim snapshot, never edited to fit | `src/data/catalog.source.json` |
 
 ## Status rules
@@ -73,6 +81,15 @@ joins only when its content is live.
   `/x/index.html` with 200 would give every page a second address. The canonical tag
   still names the right one, but the redirect is a hosting requirement, not something
   this build can enforce on its own.
+- **Structured data is valid schema.org but not rich-result eligible.** Google's product
+  rich results need an offer, a review or a rating. ACS has none in evidence, so none is
+  emitted. The five supplies and solution entries carry no Product markup at all, since
+  they are not products; whether they become category pages is decision D-09.
+- **`lastmod` tracks the page's `<main>` only.** A change to the header, the footer or
+  the structured data alone does not move a date.
+- **Model numbers that end in a unit letter read as figures.** `1950g` matches the figure
+  rule as "1950 g". It fails safe — a feature line naming such a model would be omitted,
+  not wrongly shown — and no current feature line does. Worth fixing before one does.
 - **DS3600 does not list its models.** The catalogue names the family but not which
   models ACS sells, so the page says it is a family and lists none rather than guessing.
 
@@ -89,6 +106,9 @@ joins only when its content is live.
 ## Not yet tested
 
 - Core Web Vitals. No lab measurement has been run.
+- Structured data against an external validator. It is parsed and checked against this
+  project's own rules; it has not been run through Google's Rich Results Test or the
+  schema.org validator, neither of which is reachable from the build container.
 - Screen readers. axe-core passes at 360 px and 1280 px, but no manual pass with a real
   screen reader has been done, and axe does not catch everything.
 - Browsers other than Chromium.
@@ -99,7 +119,6 @@ joins only when its content is live.
 
 ## Still missing (planned, not built)
 
-- Product structured data and sitemap `lastmod` — M2.
 - A redirect plan for the 81 dead URLs of the old site — needs Search Console data.
 - Category pages, the three-ribbon decision, the company URL — Owner decisions D-09,
   D-10, D-11.
@@ -107,7 +126,8 @@ joins only when its content is live.
 
 ## Known scanner note
 
-`npm run claims` reports 54 `EVIDENCE_REQUIRED` findings, all CR-06 on a manufacturer's
+`npm run claims` reports 71 `EVIDENCE_REQUIRED` findings (54 before structured data
+repeated each brand name), all CR-06 on a manufacturer's
 name used as a product brand (Honeywell, TSC, Zebra, Brady). That is the rule working as
 written — a vendor name needs a human to confirm it is a spec reference and not a
 partnership claim — and here each one is the brand field of a catalogue entry.

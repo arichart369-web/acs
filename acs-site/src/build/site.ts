@@ -1,5 +1,6 @@
 import { SITE } from '../config/site';
 import { isIndexable, type StatusConfig } from '../config/status';
+import type { Versions } from './versions';
 import { productPath, products } from '../data/catalog';
 import { splitFeatures, type EvidenceRecord } from '../rules/evidence';
 import {
@@ -40,8 +41,13 @@ export function absoluteUrl(route: string): string {
   return `${SITE.origin}${route}`;
 }
 
-function sitemapXml(routes: readonly string[]): string {
-  const urls = routes.map((r) => `  <url><loc>${absoluteUrl(r)}</loc></url>`).join('\n');
+function sitemapXml(routes: readonly string[], versions: Versions): string {
+  const urls = routes
+    .map((r) => {
+      const lastmod = versions[r]?.lastmod;
+      return `  <url><loc>${absoluteUrl(r)}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}</url>`;
+    })
+    .join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 }
 
@@ -54,6 +60,7 @@ export function renderSite(
   config: StatusConfig,
   records: readonly EvidenceRecord[],
   asOf: string,
+  versions: Versions = {},
 ): RenderedSite {
   const files = new Map<string, string>();
   const pages: PageInfo[] = [];
@@ -75,7 +82,7 @@ export function renderSite(
   const indexable = pages.filter((p) => p.indexable).map((p) => p.route);
   if (isIndexable(config)) {
     // The sitemap lists exactly the pages whose HTML is indexable, nothing else.
-    files.set('sitemap.xml', sitemapXml(indexable));
+    files.set('sitemap.xml', sitemapXml(indexable, versions));
     files.set('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${absoluteUrl('/sitemap.xml')}\n`);
   } else {
     // A build that is not live is closed to crawlers wherever it ends up hosted,

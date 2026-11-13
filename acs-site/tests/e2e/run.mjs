@@ -154,6 +154,22 @@ try {
       familyNotes.push(await page.locator('[data-family-note]').count());
     }
     check('E31', 'family pages say they cover more than one model; a single model does not', JSON.stringify(familyNotes) === '[1,1,0]', JSON.stringify(familyNotes));
+    // Structured data, read the way a crawler would: from the HTML, without running scripts.
+    const FORBIDDEN = ['offers', 'price', 'priceCurrency', 'availability', 'aggregateRating', 'review'];
+    const schemaProblems = [];
+    for (const route of PRODUCT_ROUTES) {
+      await page.goto(BASE + route);
+      const raw = await page.locator('script[type="application/ld+json"]').allTextContents();
+      let blocks;
+      try { blocks = raw.map((text) => JSON.parse(text)); } catch { schemaProblems.push(`${route} does not parse`); continue; }
+      const text = JSON.stringify(blocks);
+      for (const key of FORBIDDEN) if (text.includes(`"${key}"`)) schemaProblems.push(`${route} has ${key}`);
+      if (blocks.filter((b) => b['@type'] === 'BreadcrumbList').length !== 1) schemaProblems.push(`${route} breadcrumb`);
+      if (blocks.filter((b) => b['@type'] === 'Product').length > 1) schemaProblems.push(`${route} has several Products`);
+    }
+    await page.goto(`${BASE}/products/te200/`);
+    const te200 = (await page.locator('script[type="application/ld+json"]').allTextContents()).map((t) => JSON.parse(t)).find((b) => b['@type'] === 'Product');
+    check('E32', 'product structured data parses on all 14 pages and carries no price, offer, availability or rating', schemaProblems.length === 0 && te200?.name === 'TE200 Desktop Printer' && te200?.brand?.name === 'TSC', schemaProblems.join(' | '));
     await ctx.close();
   }
 

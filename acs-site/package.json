@@ -10,6 +10,7 @@
     "test": "vitest run",
     "preview": "tsx scripts/serve.ts --port 4173",
     "verify": "tsx scripts/verify.ts",
+    "stamp": "tsx scripts/stamp.ts",
     "e2e": "node tests/e2e/run.mjs",
     "claims": "node ../acs-seo/tools/claim-scan.mjs dist --all"
   },

@@ -10,6 +10,7 @@ import { splitFeatures, type EvidenceRecord } from '../rules/evidence';
 import { COUNTRIES, INDUSTRIES, INTERESTS, LABELS, MESSAGE_MAX, SCALES } from '../rules/enquiry';
 import { esc } from './html';
 import { layout } from './layout';
+import { breadcrumbJsonLd, productJsonLd, type JsonLd } from './structured';
 
 const KIND_LABEL: Record<Product['kind'], string> = {
   model: 'รุ่นผลิตภัณฑ์',
@@ -109,6 +110,8 @@ export function productPage(
   const category = categoryById(p.category);
   const { shown, omitted } = splitFeatures(p.id, p.features, records, asOf);
   const ref = referenceLink(p);
+  const product = productJsonLd(p);
+  const jsonLd: JsonLd[] = [...(product ? [product] : []), breadcrumbJsonLd(p)];
   const features = shown.length
     ? `<ul class="feature-list">${shown.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>`
     : `<p class="muted">ยังไม่มีรายละเอียดที่แสดงได้</p>`;
@@ -145,7 +148,7 @@ export function productPage(
   </div>
 </div>`;
   return layout(
-    { path: productPath(p.id), title: `${p.thaiTitle} — ${p.name} | ${SITE.shortName}`, description: `${p.thaiDescription} (${p.brand} ${p.name})`, nav: 'products', script: true },
+    { path: productPath(p.id), title: `${p.thaiTitle} — ${p.name} | ${SITE.shortName}`, description: `${p.thaiDescription} (${p.brand} ${p.name})`, nav: 'products', script: true, jsonLd },
     main, config,
   );
 }

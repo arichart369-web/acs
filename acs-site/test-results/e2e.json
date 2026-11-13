@@ -1,8 +1,8 @@
 {
-  "ranAt": "2026-11-13T18:05:40.884Z",
-  "base": "http://127.0.0.1:42245",
+  "ranAt": "2026-11-13T18:56:46.638Z",
+  "base": "http://127.0.0.1:38881",
   "routes": 20,
-  "passed": 34,
+  "passed": 35,
   "failed": 0,
   "checks": [
     {
@@ -82,6 +82,12 @@
       "name": "family pages say they cover more than one model; a single model does not",
       "pass": true,
       "detail": "[1,1,0]"
+    },
+    {
+      "id": "E32",
+      "name": "product structured data parses on all 14 pages and carries no price, offer, availability or rating",
+      "pass": true,
+      "detail": ""
     },
     {
       "id": "E10",
