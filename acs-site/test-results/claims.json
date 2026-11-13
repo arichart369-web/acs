@@ -1,0 +1,47 @@
+{
+  "ranAt": "2026-11-13T21:33:49.172Z",
+  "scanner": "acs-seo/tools/claim-scan.mjs over dist/",
+  "filesScanned": 23,
+  "pass": true,
+  "error": "",
+  "byClass": {
+    "BLOCKED": 0,
+    "EVIDENCE_REQUIRED": 71,
+    "OWNER_REQUIRED": 0
+  },
+  "tally": {
+    "CR-06 EVIDENCE_REQUIRED vendor-name": 71
+  },
+  "blocked": [],
+  "activeEvidenceRecords": 0,
+  "omittedFigures": [
+    {
+      "productId": "1950g",
+      "feature": "มาตรฐานการป้องกัน IP52"
+    },
+    {
+      "productId": "1950g",
+      "feature": "ช่วงอุณหภูมิใช้งาน 0–50 °C"
+    },
+    {
+      "productId": "m510",
+      "feature": "พิมพ์แบบ Thermal Transfer ความละเอียด 300 dpi"
+    },
+    {
+      "productId": "m510",
+      "feature": "รองรับฉลากกว้างสูงสุด 1.5 นิ้ว (38.1 มม.)"
+    },
+    {
+      "productId": "1960g",
+      "feature": "มาตรฐานการป้องกัน IP52"
+    },
+    {
+      "productId": "zd421",
+      "feature": "ความละเอียด 203 หรือ 300 dpi ตามรุ่นย่อย"
+    },
+    {
+      "productId": "ds2208",
+      "feature": "เซนเซอร์ภาพ 640 × 480 พิกเซล"
+    }
+  ]
+}

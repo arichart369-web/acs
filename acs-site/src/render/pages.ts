@@ -255,7 +255,7 @@ export function companyPage(config: StatusConfig = statusConfig): string {
   const main = `
 <div class="wrap section narrow">
   <h1>เกี่ยวกับ ACS</h1>
-  <p class="notice notice-${config.features.company}">${statusChip(config.features.company)} เนื้อหาหน้านี้ <strong>รอเจ้าของกำหนด</strong> — ${esc(FEATURE_NOTE.company)}</p>
+  <p class="notice notice-${config.features.company}">${statusChip(config.features.company)} เนื้อหาหน้านี้ <strong>ยังไม่เผยแพร่</strong> — ${esc(FEATURE_NOTE.company)}</p>
   <p>ระหว่างนี้ติดต่อ Asian Coding Systems ได้ที่ <a href="${SITE.phoneHref}">${esc(SITE.phoneDisplay)}</a> หรือ <a href="mailto:${esc(SITE.salesEmail)}">${esc(SITE.salesEmail)}</a></p>
 </div>`;
   return layout(

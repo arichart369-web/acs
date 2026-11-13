@@ -13,6 +13,8 @@
  * pattern here relies on it around a Thai unit. That bug already shipped once
  * in this repository's claim scanner.
  */
+import { products } from '../data/catalog';
+
 const NUM = String.raw`\d+(?:[.,]\d+)?`;
 // A range (0–50) or a short list of alternatives (203 หรือ 300) shares one unit,
 // so the whole run is one figure: evidence has to cover every number in it.
@@ -39,8 +41,18 @@ const PATTERNS: RegExp[] = [
   new RegExp(String.raw`(?<![A-Za-z0-9-])${RANGE}\s*(?:${THAI_UNITS.join('|')})`, 'g'),
 ];
 
+/**
+ * Model numbers that happen to end in a unit letter. "1950g" is a Honeywell
+ * model, not 1,950 grams. They are taken from the catalogue's own product
+ * names, so nothing is whitelisted by hand, and a match is dropped only when
+ * it is spelled exactly like the model: "1950 g" with a space is still a weight.
+ */
+export const MODEL_TOKENS: ReadonlySet<string> = new Set(
+  products.flatMap((p) => [p.id, ...p.name.split(/[\s/]+/)]).filter((token) => /\d/.test(token)),
+);
+
 /** Every figure in the line, in reading order, without overlaps. */
-export function extractFigures(text: string): string[] {
+export function extractFigures(text: string, modelTokens: ReadonlySet<string> = MODEL_TOKENS): string[] {
   const hits: Array<{ start: number; end: number; value: string }> = [];
   for (const re of PATTERNS) {
     re.lastIndex = 0;
@@ -56,7 +68,7 @@ export function extractFigures(text: string): string[] {
     if (last && h.start < last.end) continue; // contained in a longer match
     out.push(h);
   }
-  return out.map((h) => h.value);
+  return out.map((h) => h.value).filter((value) => !modelTokens.has(value));
 }
 
 export function hasSpecFigure(text: string): boolean {

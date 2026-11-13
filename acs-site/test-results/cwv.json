@@ -1,0 +1,69 @@
+{
+  "ranAt": "2026-11-13T21:34:16.160Z",
+  "kind": "lab measurement on a local preview server — not field data",
+  "profile": {
+    "cpuSlowdown": 4,
+    "latencyMs": 150,
+    "downloadKbps": 1600,
+    "uploadKbps": 750,
+    "viewport": {
+      "width": 360,
+      "height": 800
+    }
+  },
+  "target": {
+    "lcpMs": 2500,
+    "cls": 0.1,
+    "inpMs": 200
+  },
+  "caveats": [
+    "Fallback fonts: web fonts are blocked in the build container, so font loading cost is not represented.",
+    "Product images are placeholders, so image weight is not represented. Real images will raise LCP.",
+    "The interaction figure is the slowest single event observed, an approximation of INP for one interaction."
+  ],
+  "passed": 5,
+  "failed": 0,
+  "error": "",
+  "pages": [
+    {
+      "route": "/",
+      "lcpMs": 640,
+      "cls": 0,
+      "interaction": "none",
+      "slowestInteractionMs": 32,
+      "pass": true
+    },
+    {
+      "route": "/products/",
+      "lcpMs": 696,
+      "cls": 0,
+      "interaction": "filter tap + search input",
+      "slowestInteractionMs": 24,
+      "pass": true
+    },
+    {
+      "route": "/products/te200/",
+      "lcpMs": 644,
+      "cls": 0,
+      "interaction": "add to basket tap",
+      "slowestInteractionMs": 40,
+      "pass": true
+    },
+    {
+      "route": "/products/1950g/",
+      "lcpMs": 656,
+      "cls": 0,
+      "interaction": "add to basket tap",
+      "slowestInteractionMs": 40,
+      "pass": true
+    },
+    {
+      "route": "/enquiry/",
+      "lcpMs": 596,
+      "cls": 0,
+      "interaction": "next step tap (shows validation errors)",
+      "slowestInteractionMs": 32,
+      "pass": true
+    }
+  ]
+}

@@ -2,11 +2,11 @@
 // applies the one-address rule the production host must also apply.
 // Plain Node on purpose: Playwright is pre-installed globally in the build
 // container and must not be re-installed per project.
-import { spawn } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { startServer } from './server.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
@@ -32,36 +32,12 @@ const check = (id, name, pass, detail = '') => {
   console.log(`${pass ? 'PASS' : 'FAIL'}  ${id}  ${name}${pass || !detail ? '' : `  — ${detail}`}`);
 };
 
-// The server picks a free port and prints it. A fixed port once left this
-// suite talking to a stale server from an earlier run and reporting its
-// behaviour as ours, so the port is never assumed and the server is identified.
-function startServer() {
-  const child = spawn('npx', ['tsx', 'scripts/serve.ts', '--port', '0'], {
-    cwd: root, detached: true, stdio: ['ignore', 'pipe', 'inherit'],
-  });
-  const ready = new Promise((resolve, reject) => {
-    let buffer = '';
-    const timer = setTimeout(() => reject(new Error('preview server did not start')), 30000);
-    child.stdout.on('data', (chunk) => {
-      buffer += chunk;
-      const match = /preview: (http:\/\/127\.0\.0\.1:\d+)\//.exec(buffer);
-      if (match) { clearTimeout(timer); resolve(match[1]); }
-    });
-    child.on('exit', (code) => { clearTimeout(timer); reject(new Error(`preview server exited with code ${code}`)); });
-  });
-  return { child, ready };
-}
-
-const { child: server, ready } = startServer();
-const stopServer = () => { try { process.kill(-server.pid); } catch { /* already gone */ } };
-process.on('exit', stopServer);
-
+let server;
 let browser;
 const axeResults = [];
 try {
-  BASE = await ready;
-  const probe = await fetch(`${BASE}/`);
-  if (probe.headers.get('x-acs-preview') !== '1') throw new Error(`${BASE} is not this project's preview server`);
+  server = await startServer(root);
+  BASE = server.base;
   browser = await chromium.launch();
 
   /* ---------- routes: reachable, one h1, demo badge, closed to crawlers ---------- */
@@ -145,6 +121,15 @@ try {
     await page.goto(`${BASE}/products/`);
     const cards = await page.locator('[data-product-card]:visible').count();
     check('E08', 'catalogue lists all 14 products with JavaScript disabled', cards === 14, `${cards} cards`);
+    // Controls that only work with the script must not be shown without it.
+    const deadControls = [];
+    if (await page.locator('[data-catalogue-tools]').isVisible()) deadControls.push('catalogue search and filters');
+    await page.goto(`${BASE}/products/te200/`);
+    if (await page.locator('[data-add-to-basket]').isVisible()) deadControls.push('add-to-basket button');
+    await page.goto(`${BASE}/enquiry/`);
+    if (await page.locator('#enquiry-form').isVisible()) deadControls.push('enquiry form');
+    const noscript = await page.locator('noscript').first().textContent();
+    check('E33', 'without JavaScript, script-only controls stay hidden and the page says how to reach ACS', deadControls.length === 0 && noscript.includes('02-203-0232'), deadControls.join(' | '));
     await page.goto(`${BASE}/products/1950g/`);
     const text = await page.locator('main').textContent();
     check('E09', 'unsourced spec figures are omitted and the page says how many', !text.includes('IP52') && !text.includes('0–50') && (await page.locator('[data-omitted-figures="2"]').count()) === 1);
@@ -201,6 +186,10 @@ try {
     const page = await ctx.newPage();
     const requests = [];
     page.on('request', (r) => requests.push(`${r.method()} ${r.url()}`));
+
+    await page.goto(`${BASE}/basket/`);
+    const emptyState = { message: await page.locator('#basket-empty').isVisible(), actions: await page.locator('#basket-actions').isVisible(), list: await page.locator('#basket-list').isVisible() };
+    check('E34', 'an empty basket shows its empty message and no "continue" actions', emptyState.message && !emptyState.actions && !emptyState.list, JSON.stringify(emptyState));
 
     await page.goto(`${BASE}/products/te200/`);
     await page.click('[data-add-to-basket]');
@@ -291,6 +280,15 @@ try {
     }
     check(`E25-${width}`, `no horizontal page scroll at ${width}px on any of ${ROUTES.length} routes`, overflow.length === 0, overflow.join(' | '));
 
+    // An element carrying `hidden` must really be hidden, whatever its CSS says.
+    const shown = [];
+    for (const route of ROUTES) {
+      await page.goto(BASE + route, { waitUntil: 'load' });
+      const leaks = await page.evaluate(() => [...document.querySelectorAll('[hidden]')].filter((el) => getComputedStyle(el).display !== 'none').map((el) => el.id || el.className || el.tagName));
+      for (const leak of leaks) shown.push(`${route} ${leak}`);
+    }
+    check(`E35-${width}`, `no element marked hidden is displayed at ${width}px on any of ${ROUTES.length} routes`, shown.length === 0, [...new Set(shown)].join(' | '));
+
     const small = [];
     const violations = [];
     for (const route of SAMPLE) {
@@ -324,11 +322,21 @@ try {
   check('E00', 'e2e run completed', false, error?.stack ?? String(error));
 } finally {
   await browser?.close();
-  stopServer();
+  server?.stop();
 }
 
 const failed = checks.filter((c) => !c.pass);
 writeFileSync(join(out, 'e2e.json'), JSON.stringify({ ranAt: new Date().toISOString(), base: BASE, routes: ROUTES.length, passed: checks.length - failed.length, failed: failed.length, checks }, null, 2) + '\n');
 writeFileSync(join(out, 'axe.json'), JSON.stringify({ ranAt: new Date().toISOString(), tags: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'], pages: axeResults }, null, 2) + '\n');
+// One evidence file per acceptance area, as the PRD names them. Each is a
+// slice of the same run, so they cannot disagree with e2e.json.
+const slice = (file, about, ids) => {
+  const picked = checks.filter((c) => ids.some((id) => c.id === id || c.id.startsWith(`${id}-`)));
+  writeFileSync(join(out, file), JSON.stringify({ ranAt: new Date().toISOString(), about, passed: picked.filter((c) => c.pass).length, failed: picked.filter((c) => !c.pass).length, checks: picked }, null, 2) + '\n');
+};
+slice('norender.json', 'product text and catalogue present in the HTML with JavaScript disabled', ['E07', 'E08', 'E09', 'E33']);
+slice('links.json', 'internal links, dead-link guard and the one-address rule', ['E05', 'E06', 'E28', 'E29']);
+slice('overflow.json', 'no horizontal page scroll at 360 and 1280 px', ['E25']);
+slice('pii.json', 'nothing personal in storage, cookies, URLs or outbound requests', ['E21', 'E22', 'E23']);
 console.log(`\n${checks.length - failed.length}/${checks.length} checks passed`);
 process.exit(failed.length ? 1 : 0);

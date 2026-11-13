@@ -14,6 +14,10 @@
   --off-bg: #e7ebf1; --off-ink: #2f3a4b;
 }
 *, *::before, *::after { box-sizing: border-box; }
+/* The hidden attribute must win. Without this, any rule that sets `display`
+   (flex, grid) silently un-hides the element: an empty basket showed its
+   "continue" buttons, and the catalogue showed a search box with no script. */
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; color: var(--ink); background: var(--paper);

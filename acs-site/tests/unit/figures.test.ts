@@ -54,6 +54,19 @@ describe('spec figure detection', () => {
     expect(hasSpecFigure('กว้าง 104 มม.')).toBe(true);
   });
 
+  it('does not read a model number ending in a unit letter as a figure', () => {
+    expect(extractFigures('Xenon XP 1950g')).toEqual([]);
+    expect(extractFigures('เทียบกับ Xenon Ultra 1960g')).toEqual([]);
+    for (const p of products) expect(extractFigures(p.name)).toEqual([]);
+  });
+
+  it('still reads the same digits as a figure when they are written as a weight', () => {
+    expect(extractFigures('น้ำหนัก 1950 g')).toEqual(['1950 g']);
+    expect(extractFigures('หนัก 250g')).toEqual(['250g']);
+    // With no catalogue to consult, the rule falls back to the cautious reading.
+    expect(extractFigures('Xenon XP 1950g', new Set())).toEqual(['1950g']);
+  });
+
   it('normalises dashes and spacing', () => {
     expect(normaliseFigure('0–50 °C')).toBe(normaliseFigure('0-50°C'));
   });

@@ -102,7 +102,7 @@ const schemaRows = products.map((p) => {
   try { blocks = extractJsonLd(html); } catch (error) { parseError = String(error); }
   const productBlocks = blocks.filter((b) => b['@type'] === 'Product');
   const crumbs = blocks.filter((b) => b['@type'] === 'BreadcrumbList');
-  return { id: p.id, kind: p.kind, expectsProduct: hasProductMarkup(p), parseError, productBlocks, crumbs, forbidden: forbiddenKeysIn(blocks), figures: allStrings(blocks).flatMap(extractFigures) };
+  return { id: p.id, kind: p.kind, expectsProduct: hasProductMarkup(p), parseError, productBlocks, crumbs, forbidden: forbiddenKeysIn(blocks), figures: allStrings(blocks).flatMap((text) => extractFigures(text)) };
 });
 const unparsed = schemaRows.filter((r) => r.parseError);
 add(schemaChecks, 'every JSON-LD block parses', unparsed.length === 0, unparsed.map((r) => r.id).join(' '));
@@ -117,8 +117,7 @@ const incomplete = schemaRows.filter((r) => r.expectsProduct).filter((r) => {
 add(schemaChecks, 'each Product names itself, its brand and its own canonical URL', incomplete.length === 0, incomplete.map((r) => r.id).join(' '));
 const forbidden = schemaRows.filter((r) => r.forbidden.length);
 add(schemaChecks, 'no structured data carries a price, an offer, availability, a rating or a review', forbidden.length === 0, forbidden.map((r) => `${r.id}:${r.forbidden.join(',')}`).join(' '));
-// A product name may itself end in a unit letter (1950g); that is a model number, not a figure.
-const leaked = schemaRows.map((r) => ({ id: r.id, figures: r.figures.filter((f) => !products.some((p) => p.name.includes(f))) })).filter((r) => r.figures.length);
+const leaked = schemaRows.filter((r) => r.figures.length);
 add(schemaChecks, 'no structured data states a spec figure', leaked.length === 0, leaked.map((r) => `${r.id}:${r.figures.join(',')}`).join(' '));
 const badCrumbs = schemaRows.filter((r) => r.crumbs.length !== 1);
 add(schemaChecks, 'every product page carries one breadcrumb trail', badCrumbs.length === 0, badCrumbs.map((r) => r.id).join(' '));

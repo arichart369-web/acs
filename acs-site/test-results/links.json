@@ -1,0 +1,32 @@
+{
+  "ranAt": "2026-11-13T21:34:04.905Z",
+  "about": "internal links, dead-link guard and the one-address rule",
+  "passed": 4,
+  "failed": 0,
+  "checks": [
+    {
+      "id": "E28",
+      "name": "each of 20 pages answers at one address; every other form is a 301 to it",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E29",
+      "name": "a redirect keeps the query string",
+      "pass": true,
+      "detail": "301 /products/?category=printers"
+    },
+    {
+      "id": "E05",
+      "name": "no internal link is dead (26 distinct targets)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E06",
+      "name": "no page links to a dead asiancoding.com URL from the catalogue data",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}

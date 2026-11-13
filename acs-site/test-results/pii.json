@@ -1,0 +1,26 @@
+{
+  "ranAt": "2026-11-13T21:34:04.905Z",
+  "about": "nothing personal in storage, cookies, URLs or outbound requests",
+  "passed": 3,
+  "failed": 0,
+  "checks": [
+    {
+      "id": "E21",
+      "name": "after a filled form, storage, cookies and the URL hold nothing personal",
+      "pass": true,
+      "detail": "{\"local\":{},\"session\":{\"acs:basket:v1\":\"[\\\"te200\\\"]\"},\"cookie\":\"\"}"
+    },
+    {
+      "id": "E22",
+      "name": "the only stored key is the basket of product ids",
+      "pass": true,
+      "detail": "{\"local\":{},\"session\":{\"acs:basket:v1\":\"[\\\"te200\\\"]\"},\"cookie\":\"\"}"
+    },
+    {
+      "id": "E23",
+      "name": "no request leaves the site and nothing is POSTed",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}

@@ -12,7 +12,9 @@
     "verify": "tsx scripts/verify.ts",
     "stamp": "tsx scripts/stamp.ts",
     "e2e": "node tests/e2e/run.mjs",
-    "claims": "node ../acs-seo/tools/claim-scan.mjs dist --all"
+    "claims": "tsx scripts/claims.ts",
+    "cwv": "node tests/e2e/cwv.mjs",
+    "qa": "npm run typecheck && npm run build && npm test && npm run verify && npm run claims && npm run e2e && npm run cwv && tsx scripts/qa-summary.ts"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",

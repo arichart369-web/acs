@@ -1,0 +1,151 @@
+{
+  "generatedAt": "2026-11-13T21:34:16.485Z",
+  "counts": {
+    "PASS": 16,
+    "FAIL": 0,
+    "NOT RUN": 1,
+    "HUMAN STEP": 1
+  },
+  "gate": {
+    "automatedTestsGreen": false,
+    "m2Complete": false,
+    "externalReview": false,
+    "ownerUat": false,
+    "open": false,
+    "why": "M3 closes only when M2 is complete, someone other than the author has reviewed the exact commit, and the Owner has done UAT. None of the three has happened."
+  },
+  "tests": [
+    {
+      "id": "T1",
+      "proves": "Every rule and parser behaves, including on Thai input",
+      "evidence": "unit.json",
+      "status": "PASS",
+      "detail": "127/127 unit tests"
+    },
+    {
+      "id": "T2",
+      "proves": "A clean checkout builds and tests with no network access",
+      "evidence": "offline.json",
+      "status": "NOT RUN",
+      "detail": "offline.json missing — run tests/qa/offline.mjs on a committed tree"
+    },
+    {
+      "id": "T3",
+      "proves": "14 product routes return 200 with distinct headings",
+      "evidence": "e2e.json",
+      "status": "PASS",
+      "detail": "3/3 checks (E01, E02, E31)"
+    },
+    {
+      "id": "T4",
+      "proves": "Self-referencing canonical on every indexable page; no page answers at two addresses",
+      "evidence": "canonical.json, links.json",
+      "status": "PASS",
+      "detail": "6/6 checks · 2/2 checks (E28, E29)"
+    },
+    {
+      "id": "T5",
+      "proves": "Product text is present with JavaScript disabled",
+      "evidence": "norender.json",
+      "status": "PASS",
+      "detail": "3/3 checks (E07, E08, E33)"
+    },
+    {
+      "id": "T6",
+      "proves": "No internal link resolves to a 404",
+      "evidence": "links.json",
+      "status": "PASS",
+      "detail": "2/2 checks (E05, E06)"
+    },
+    {
+      "id": "T7",
+      "proves": "The sitemap lists every indexable URL and only those; robots.txt names it",
+      "evidence": "sitemap.json",
+      "status": "PASS",
+      "detail": "10/10 checks"
+    },
+    {
+      "id": "T8",
+      "proves": "The claim scanner reports zero BLOCKED over the built HTML",
+      "evidence": "claims.json",
+      "status": "PASS",
+      "detail": "BLOCKED 0 · EVIDENCE_REQUIRED 71"
+    },
+    {
+      "id": "T9",
+      "proves": "No serious or critical accessibility violation at 360 and 1280 px",
+      "evidence": "axe.json",
+      "status": "PASS",
+      "detail": "2/2 checks (E26)"
+    },
+    {
+      "id": "T10",
+      "proves": "No horizontal page scroll at 360 or 1280 px",
+      "evidence": "overflow.json",
+      "status": "PASS",
+      "detail": "2/2 checks (E25)"
+    },
+    {
+      "id": "T11",
+      "proves": "The enquiry form refuses an empty required field and announces each error",
+      "evidence": "e2e.json",
+      "status": "PASS",
+      "detail": "3/3 checks (E15, E16, E24)"
+    },
+    {
+      "id": "T12",
+      "proves": "Submitting returns not-connected and no success message appears",
+      "evidence": "e2e.json",
+      "status": "PASS",
+      "detail": "2/2 checks (E19, E20) · 4/4 unit tests"
+    },
+    {
+      "id": "T13",
+      "proves": "Consent boxes start unticked; service consent required; marketing consent not",
+      "evidence": "e2e.json",
+      "status": "PASS",
+      "detail": "3/3 checks (E13, E17, E18)"
+    },
+    {
+      "id": "T14",
+      "proves": "After a filled form, storage and URLs hold nothing personal",
+      "evidence": "pii.json",
+      "status": "PASS",
+      "detail": "3/3 checks (E21, E22, E23)"
+    },
+    {
+      "id": "T15",
+      "proves": "A figure with no active evidence record is not shown, and the build names it",
+      "evidence": "claims.json, norender.json",
+      "status": "PASS",
+      "detail": "7 figures held back, 0 active records · 1/1 checks (E09) · 5/5 unit tests"
+    },
+    {
+      "id": "T16",
+      "proves": "An evidence record cannot go active when its approver is its author",
+      "evidence": "unit.json",
+      "status": "PASS",
+      "detail": "9/9 unit tests"
+    },
+    {
+      "id": "T17",
+      "proves": "Product structured data validates and carries no price or availability",
+      "evidence": "schema.json",
+      "status": "PASS",
+      "detail": "7/7 checks · 1/1 checks (E32)"
+    },
+    {
+      "id": "T18",
+      "proves": "Screenshots of every page type at 360 and 1280 px, reviewed by eye",
+      "evidence": "screens/*.png",
+      "status": "HUMAN STEP",
+      "detail": "16 screenshots captured. Looked at by the author only; a second pair of eyes has not seen them."
+    }
+  ],
+  "beyondThePrdTests": {
+    "coreWebVitals": {
+      "status": "PASS (lab only)",
+      "detail": "5/5 pages within target on a local server; not field data"
+    }
+  }
+}
