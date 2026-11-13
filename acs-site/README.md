@@ -12,19 +12,25 @@ PRD: https://claude.ai/artifact/YXVU5Vr7byRo78XAD1rino
 npm install
 npm run build      # renders dist/ and writes dist/build-report.json
 npm test           # unit tests (Vitest) → test-results/unit.json
-npm run e2e        # Playwright + axe against `vite preview` → test-results/
+npm run verify     # canonical + sitemap rules on a live-config variant → test-results/
+npm run e2e        # Playwright + axe against the preview server → test-results/
 npm run claims     # ACS claim scanner over the built HTML
 npm run preview    # serve dist/ on http://127.0.0.1:4173
 ```
 
 `npm run e2e` expects Playwright to be installed globally (it is in the build container).
-Do not add it as a project dependency.
+Do not add it as a project dependency. It starts its own preview server on a free port and
+checks that the server answering is this project's, because a fixed port once left it
+testing a stale server from an earlier run.
 
 ## Increments
 
 | # | What | Unit | E2E | Claims |
 |---|---|---|---|---|
 | M0 | Skeleton: 20 pages reachable in demo mode, one status config, store boundary, evidence gate, enquiry wizard, basket | 82/82 | 30/30 | BLOCKED 0 |
+| M1 | Discoverability: one address per page, self-referencing canonical, sitemap of exactly the indexable pages, robots naming it; family pages say so | 108/108 | 34/34 | BLOCKED 0 |
+
+M1 also runs `npm run verify`: 13/13 on a live-config variant (17 URLs in its sitemap).
 
 ## Non-negotiables, and where each one lives
 
@@ -36,6 +42,8 @@ Do not add it as a project dependency.
 | Evidence goes draft → active only if the source quotes every figure, a source is named, and approver ≠ author; decisions are append-only | `src/rules/evidence.ts` |
 | Nothing personal in URLs, storage, cookies or logs | `src/client/main.ts` (state in memory), checked by E21–E23 |
 | A build that is not live is closed to crawlers | `isIndexable()` in `src/config/status.ts` |
+| One address per page; every other spelling is a 301 | `src/build/address.ts` |
+| The sitemap lists exactly the pages whose own HTML is indexable | `src/build/site.ts` |
 | Catalogue data is a verbatim snapshot, never edited to fit | `src/data/catalog.source.json` |
 
 ## Status rules
@@ -45,7 +53,28 @@ the material behind it is named. Four features cannot move until the Owner suppl
 something: spec figures (datasheets), prices (a dated price list), stock (dated stock
 data) and the company page (its URL, decision D-11).
 
+## How the live rules are proven while the build stays demo
+
+The shipped build is demo: every page is `noindex`, there is no sitemap, and `robots.txt`
+closes the site. Canonicals and the sitemap only exist on a live system, so they are
+proven on a **live-config variant rendered in memory** (`renderSite` in
+`src/build/site.ts`), never written to `dist/`. `npm run verify` and
+`tests/unit/site.test.ts` both do this. Nothing flips the shipped config.
+
+On a live system 17 pages are indexable: home, catalogue, 14 products and the enquiry
+page. The basket, the status page and the error page never are, and the company page
+joins only when its content is live.
+
 ## Limits right now
+
+- **The one-address rule is proven on the preview server only.** `scripts/serve.ts`
+  applies `src/build/address.ts`, and e2e checks all 20 pages against it. Whichever host
+  serves the site must apply the same rule; a static host that also answers
+  `/x/index.html` with 200 would give every page a second address. The canonical tag
+  still names the right one, but the redirect is a hosting requirement, not something
+  this build can enforce on its own.
+- **DS3600 does not list its models.** The catalogue names the family but not which
+  models ACS sells, so the page says it is a family and lists none rather than guessing.
 
 - **Demo mode.** The enquiry form validates and then refuses to submit; nothing is stored
   or sent anywhere. The basket keeps product ids in `sessionStorage` and nothing else.
@@ -70,9 +99,8 @@ data) and the company page (its URL, decision D-11).
 
 ## Still missing (planned, not built)
 
-- Canonical tags, `sitemap.xml`, one address per page — M1, and only meaningful once the
-  system is `live`, since a demo build is `noindex`.
-- Product structured data (M2), search-engine `lastmod` (M2).
+- Product structured data and sitemap `lastmod` — M2.
+- A redirect plan for the 81 dead URLs of the old site — needs Search Console data.
 - Category pages, the three-ribbon decision, the company URL — Owner decisions D-09,
   D-10, D-11.
 - A backend for enquiries, with its own gate.

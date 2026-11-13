@@ -8,7 +8,8 @@
     "build": "tsx scripts/build.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "preview": "vite preview --outDir dist --port 4173 --strictPort",
+    "preview": "tsx scripts/serve.ts --port 4173",
+    "verify": "tsx scripts/verify.ts",
     "e2e": "node tests/e2e/run.mjs",
     "claims": "node ../acs-seo/tools/claim-scan.mjs dist --all"
   },
@@ -18,7 +19,6 @@
     "esbuild": "^0.28.2",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
-    "vite": "^8.3.8",
     "vitest": "^5.1.0"
   }
 }

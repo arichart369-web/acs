@@ -10,6 +10,11 @@ export interface PageMeta {
   nav?: 'products' | 'basket' | 'enquiry' | 'company' | 'status';
   /** Loads the client bundle. Pages that work without it leave this off. */
   script?: boolean;
+  /**
+   * False for pages that must never be indexed even on a live system: the
+   * basket, the status page, the error page, a placeholder. Defaults to true.
+   */
+  index?: boolean;
 }
 
 const NAV: Array<{ key: NonNullable<PageMeta['nav']>; href: string; label: string }> = [
@@ -20,8 +25,17 @@ const NAV: Array<{ key: NonNullable<PageMeta['nav']>; href: string; label: strin
   { key: 'status', href: '/status/', label: 'สถานะระบบ' },
 ];
 
+/** A page is indexable only when the system is live AND the page itself allows it. */
+export function pageIsIndexable(meta: PageMeta, config: StatusConfig = statusConfig): boolean {
+  return isIndexable(config) && meta.index !== false;
+}
+
 export function layout(meta: PageMeta, main: string, config: StatusConfig = statusConfig): string {
-  const robots = isIndexable(config) ? '' : '<meta name="robots" content="noindex,nofollow">';
+  const indexable = pageIsIndexable(meta, config);
+  // Exactly one of the two: an indexable page names its one address, any other page says noindex.
+  const robots = indexable
+    ? `<link rel="canonical" href="${esc(SITE.origin + meta.path)}">`
+    : '<meta name="robots" content="noindex,nofollow">';
   const nav = NAV.map(
     (item) =>
       `<li><a href="${item.href}"${meta.nav === item.key ? ' aria-current="page"' : ''}>${esc(item.label)}</a></li>`,

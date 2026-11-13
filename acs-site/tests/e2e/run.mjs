@@ -1,4 +1,5 @@
-// End-to-end checks against the built site, served by `vite preview`.
+// End-to-end checks against the built site, served by scripts/serve.ts, which
+// applies the one-address rule the production host must also apply.
 // Plain Node on purpose: Playwright is pre-installed globally in the build
 // container and must not be re-installed per project.
 import { spawn } from 'node:child_process';
@@ -16,8 +17,7 @@ const out = join(root, 'test-results');
 const screens = join(out, 'screens');
 mkdirSync(screens, { recursive: true });
 
-const PORT = 4173;
-const BASE = `http://127.0.0.1:${PORT}`;
+let BASE = '';
 const report = JSON.parse(readFileSync(join(root, 'dist', 'build-report.json'), 'utf8'));
 const ROUTES = report.routes;
 const PRODUCT_ROUTES = ROUTES.filter((r) => /^\/products\/[^/]+\/$/.test(r));
@@ -32,27 +32,36 @@ const check = (id, name, pass, detail = '') => {
   console.log(`${pass ? 'PASS' : 'FAIL'}  ${id}  ${name}${pass || !detail ? '' : `  — ${detail}`}`);
 };
 
-async function waitForServer() {
-  for (let i = 0; i < 80; i++) {
-    try {
-      const res = await fetch(`${BASE}/`);
-      if (res.ok) return;
-    } catch { /* not up yet */ }
-    await new Promise((r) => setTimeout(r, 250));
-  }
-  throw new Error('preview server did not start');
+// The server picks a free port and prints it. A fixed port once left this
+// suite talking to a stale server from an earlier run and reporting its
+// behaviour as ours, so the port is never assumed and the server is identified.
+function startServer() {
+  const child = spawn('npx', ['tsx', 'scripts/serve.ts', '--port', '0'], {
+    cwd: root, detached: true, stdio: ['ignore', 'pipe', 'inherit'],
+  });
+  const ready = new Promise((resolve, reject) => {
+    let buffer = '';
+    const timer = setTimeout(() => reject(new Error('preview server did not start')), 30000);
+    child.stdout.on('data', (chunk) => {
+      buffer += chunk;
+      const match = /preview: (http:\/\/127\.0\.0\.1:\d+)\//.exec(buffer);
+      if (match) { clearTimeout(timer); resolve(match[1]); }
+    });
+    child.on('exit', (code) => { clearTimeout(timer); reject(new Error(`preview server exited with code ${code}`)); });
+  });
+  return { child, ready };
 }
 
-const server = spawn('npx', ['vite', 'preview', '--outDir', 'dist', '--port', String(PORT), '--strictPort', '--host', '127.0.0.1'], {
-  cwd: root, detached: true, stdio: 'ignore',
-});
+const { child: server, ready } = startServer();
 const stopServer = () => { try { process.kill(-server.pid); } catch { /* already gone */ } };
 process.on('exit', stopServer);
 
 let browser;
 const axeResults = [];
 try {
-  await waitForServer();
+  BASE = await ready;
+  const probe = await fetch(`${BASE}/`);
+  if (probe.headers.get('x-acs-preview') !== '1') throw new Error(`${BASE} is not this project's preview server`);
   browser = await chromium.launch();
 
   /* ---------- routes: reachable, one h1, demo badge, closed to crawlers ---------- */
@@ -78,6 +87,22 @@ try {
 
     const missing = await page.goto(`${BASE}/products/does-not-exist/`);
     check('E03', 'an unknown product returns 404, not a soft 200', missing.status() === 404, `status ${missing.status()}`);
+    // One address per page: every other spelling redirects permanently, none returns 200.
+    const wrong = [];
+    for (const route of ROUTES) {
+      const bare = route === '/' ? null : route.replace(/\/$/, '');
+      const forms = [`${route}index.html`, ...(bare ? [bare, `${bare}.html`] : [])];
+      for (const form of forms) {
+        const r = await fetch(BASE + form, { redirect: 'manual' });
+        if (!(r.status === 301 && r.headers.get('location') === route)) wrong.push(`${form} → ${r.status} ${r.headers.get('location') ?? ''}`);
+      }
+    }
+    check('E28', `each of ${ROUTES.length} pages answers at one address; every other form is a 301 to it`, wrong.length === 0, wrong.join(' | '));
+    const kept = await fetch(`${BASE}/products?category=printers`, { redirect: 'manual' });
+    check('E29', 'a redirect keeps the query string', kept.status === 301 && kept.headers.get('location') === '/products/?category=printers', `${kept.status} ${kept.headers.get('location')}`);
+    const sitemap = await fetch(`${BASE}/sitemap.xml`);
+    check('E30', 'a demo build serves no sitemap', report.indexable || sitemap.status === 404, `status ${sitemap.status}`);
+
     const robotsTxt = await (await fetch(`${BASE}/robots.txt`)).text();
     check('E04', 'robots.txt closes a non-live build to crawlers', report.indexable || /Disallow: \/\s*$/m.test(robotsTxt), robotsTxt.replace(/\n/g, ' '));
 
@@ -123,6 +148,12 @@ try {
     await page.goto(`${BASE}/products/1950g/`);
     const text = await page.locator('main').textContent();
     check('E09', 'unsourced spec figures are omitted and the page says how many', !text.includes('IP52') && !text.includes('0–50') && (await page.locator('[data-omitted-figures="2"]').count()) === 1);
+    const familyNotes = [];
+    for (const id of ['tc22', 'ds3600', 'te200']) {
+      await page.goto(`${BASE}/products/${id}/`);
+      familyNotes.push(await page.locator('[data-family-note]').count());
+    }
+    check('E31', 'family pages say they cover more than one model; a single model does not', JSON.stringify(familyNotes) === '[1,1,0]', JSON.stringify(familyNotes));
     await ctx.close();
   }
 

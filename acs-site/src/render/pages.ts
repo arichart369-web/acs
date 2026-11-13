@@ -125,6 +125,7 @@ export function productPage(
       <h1>${esc(p.thaiTitle)}</h1>
       <p class="product-name">${esc(p.name)}</p>
       <p class="kind">${esc(KIND_LABEL[p.kind])}</p>
+      ${p.kind === 'family' ? `<p class="family-note" data-family-note>หน้านี้เป็นข้อมูลระดับตระกูล (${esc(p.name)}) ไม่ใช่รุ่นใดรุ่นหนึ่ง รุ่นย่อยที่ ACS จำหน่ายและสเปกของแต่ละรุ่นต้องยืนยันกับ ACS</p>` : ''}
       <p class="lead">${esc(p.thaiDescription)}</p>
       <p class="muted" lang="en">${esc(p.description)}</p>
       <h2>รายละเอียด</h2>
@@ -162,7 +163,7 @@ export function basketPage(config: StatusConfig = statusConfig): string {
   </div>
 </div>`;
   return layout(
-    { path: '/basket/', title: `รายการขอราคา | ${SITE.shortName}`, description: 'รายการสินค้าที่เลือกไว้เพื่อขอราคาจาก ACS', nav: 'basket', script: true },
+    { path: '/basket/', title: `รายการขอราคา | ${SITE.shortName}`, description: 'รายการสินค้าที่เลือกไว้เพื่อขอราคาจาก ACS', nav: 'basket', script: true, index: false },
     main, config,
   );
 }
@@ -255,7 +256,8 @@ export function companyPage(config: StatusConfig = statusConfig): string {
   <p>ระหว่างนี้ติดต่อ Asian Coding Systems ได้ที่ <a href="${SITE.phoneHref}">${esc(SITE.phoneDisplay)}</a> หรือ <a href="mailto:${esc(SITE.salesEmail)}">${esc(SITE.salesEmail)}</a></p>
 </div>`;
   return layout(
-    { path: '/company/', title: `เกี่ยวกับ ACS | ${SITE.shortName}`, description: 'ข้อมูลเกี่ยวกับ Asian Coding Systems', nav: 'company' },
+    // A placeholder is not worth indexing; the page opens to crawlers only once its content is live.
+    { path: '/company/', title: `เกี่ยวกับ ACS | ${SITE.shortName}`, description: 'ข้อมูลเกี่ยวกับ Asian Coding Systems', nav: 'company', index: config.features.company === 'live' },
     main, config,
   );
 }
@@ -283,7 +285,7 @@ export function statusPage(config: StatusConfig = statusConfig): string {
   </ul>
 </div>`;
   return layout(
-    { path: '/status/', title: `สถานะระบบ | ${SITE.shortName}`, description: 'สถานะของแต่ละส่วนในเว็บไซต์ ACS', nav: 'status' },
+    { path: '/status/', title: `สถานะระบบ | ${SITE.shortName}`, description: 'สถานะของแต่ละส่วนในเว็บไซต์ ACS', nav: 'status', index: false },
     main, config,
   );
 }
@@ -295,5 +297,5 @@ export function notFoundPage(config: StatusConfig = statusConfig): string {
   <p>หน้านี้อาจถูกย้ายหรือไม่มีอยู่แล้ว</p>
   <p class="actions"><a class="button button-primary" href="/products/">ดูรายการสินค้า</a> <a class="button button-outline" href="/">กลับหน้าแรก</a></p>
 </div>`;
-  return layout({ path: '/404.html', title: `ไม่พบหน้า | ${SITE.shortName}`, description: 'ไม่พบหน้าที่ต้องการ' }, main, config);
+  return layout({ path: '/404.html', title: `ไม่พบหน้า | ${SITE.shortName}`, description: 'ไม่พบหน้าที่ต้องการ', index: false }, main, config);
 }

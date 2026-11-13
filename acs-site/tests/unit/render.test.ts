@@ -78,6 +78,8 @@ describe('product page', () => {
     expect(productPage(product('tc22'), [], '2026-11-13')).toContain('ตระกูลผลิตภัณฑ์ — ครอบคลุมมากกว่าหนึ่งรุ่น');
     expect(productPage(product('tc22'), [], '2026-11-13')).toContain('TC22 / TC27');
     expect(productPage(product('te200'), [], '2026-11-13')).not.toContain('ตระกูลผลิตภัณฑ์');
+    expect(productPage(product('ds3600'), [], '2026-11-13')).toContain('data-family-note');
+    expect(productPage(product('te200'), [], '2026-11-13')).not.toContain('data-family-note');
   });
 
   it('links the manufacturer page but never a dead ACS page', () => {

@@ -1,8 +1,8 @@
 {
-  "ranAt": "2026-11-13T17:37:17.170Z",
-  "base": "http://127.0.0.1:4173",
+  "ranAt": "2026-11-13T18:05:40.884Z",
+  "base": "http://127.0.0.1:42245",
   "routes": 20,
-  "passed": 30,
+  "passed": 34,
   "failed": 0,
   "checks": [
     {
@@ -20,6 +20,24 @@
     {
       "id": "E03",
       "name": "an unknown product returns 404, not a soft 200",
+      "pass": true,
+      "detail": "status 404"
+    },
+    {
+      "id": "E28",
+      "name": "each of 20 pages answers at one address; every other form is a 301 to it",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "E29",
+      "name": "a redirect keeps the query string",
+      "pass": true,
+      "detail": "301 /products/?category=printers"
+    },
+    {
+      "id": "E30",
+      "name": "a demo build serves no sitemap",
       "pass": true,
       "detail": "status 404"
     },
@@ -58,6 +76,12 @@
       "name": "unsourced spec figures are omitted and the page says how many",
       "pass": true,
       "detail": ""
+    },
+    {
+      "id": "E31",
+      "name": "family pages say they cover more than one model; a single model does not",
+      "pass": true,
+      "detail": "[1,1,0]"
     },
     {
       "id": "E10",

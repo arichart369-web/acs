@@ -6,6 +6,12 @@ export const SITE = {
   name: 'ACS · Asian Coding Systems',
   shortName: 'ACS',
   lang: 'th',
+  /**
+   * The host canonical URLs and the sitemap are written for. On 2026-10-23 the
+   * apex asiancoding.com answered with a 301 to this host, so this is the one
+   * ACS already treats as preferred.
+   */
+  origin: 'https://www.asiancoding.com',
   /** Shown on the live site's header, footer and contact dialog. */
   phoneDisplay: '02-203-0232',
   phoneHref: 'tel:+6622030232',

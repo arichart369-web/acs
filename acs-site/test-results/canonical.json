@@ -1,0 +1,194 @@
+{
+  "ranAt": "2026-11-13T18:04:48.645Z",
+  "variant": "live (rendered in memory, never written to dist/)",
+  "passed": 6,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "every indexable page has exactly one canonical, pointing at itself",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "a page that is not indexable says noindex and names no canonical",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "the error page is noindex with no canonical",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no page is emitted under a second file name",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "each of 20 pages answers 200 at one address and 301 from every other form",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "the shipped demo build: every page noindex, no canonical anywhere",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "pages": [
+    {
+      "route": "/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/1950g/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/1950g/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/te200/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/te200/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/zt411/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/zt411/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/tc22/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/tc22/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/m510/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/m510/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/ds3600/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/ds3600/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/rfid/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/rfid/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/labels/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/labels/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/wax-ribbons/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/wax-ribbons/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/wax-resin-ribbons/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/wax-resin-ribbons/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/resin-ribbons/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/resin-ribbons/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/1960g/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/1960g/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/zd421/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/zd421/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/products/ds2208/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/products/ds2208/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/basket/",
+      "indexable": false,
+      "canonical": [],
+      "noindex": true
+    },
+    {
+      "route": "/enquiry/",
+      "indexable": true,
+      "canonical": [
+        "https://www.asiancoding.com/enquiry/"
+      ],
+      "noindex": false
+    },
+    {
+      "route": "/company/",
+      "indexable": false,
+      "canonical": [],
+      "noindex": true
+    },
+    {
+      "route": "/status/",
+      "indexable": false,
+      "canonical": [],
+      "noindex": true
+    }
+  ]
+}

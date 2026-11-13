@@ -99,6 +99,7 @@ main:focus { outline: none; }
 @media (min-width: 48rem) { .product-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
 .product-name { font-weight: 700; font-size: 1.1rem; margin-bottom: .25rem; }
 .kind { display: inline-block; font-size: .85rem; background: var(--wash); border: 1px solid var(--line); border-radius: 4px; padding: .1rem .5rem; }
+.family-note { margin-top: .6rem; padding: .6rem .9rem; background: var(--wash); border-left: 4px solid var(--navy); border-radius: 4px; }
 .feature-list { padding-left: 1.2rem; }
 .feature-list li { margin-bottom: .35rem; }
 .held { background: var(--off-bg); color: var(--off-ink); border-left: 4px solid var(--off-ink); padding: .75rem 1rem; border-radius: 4px; }
