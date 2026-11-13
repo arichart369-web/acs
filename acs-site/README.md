@@ -15,7 +15,10 @@ npm test           # unit tests (Vitest) → test-results/unit.json
 npm run verify     # canonical, sitemap and structured-data rules on a live-config variant → test-results/
 npm run stamp      # re-stamp page versions after changing page content; commit the result
 npm run e2e        # Playwright + axe against the preview server → test-results/
-npm run claims     # ACS claim scanner over the built HTML
+npm run claims     # ACS claim scanner over the built HTML → test-results/claims.json
+npm run cwv        # lab Core Web Vitals on a throttled phone profile → test-results/cwv.json
+npm run qa         # all of the above, then the T1–T18 matrix → test-results/summary.json
+node tests/qa/offline.mjs <scratch-dir>   # T2: clean clone, no network (Linux, root, unshare)
 npm run preview    # serve dist/ on http://127.0.0.1:4173
 ```
 
@@ -31,8 +34,13 @@ testing a stale server from an earlier run.
 | M0 | Skeleton: 20 pages reachable in demo mode, one status config, store boundary, evidence gate, enquiry wizard, basket | 82/82 | 30/30 | BLOCKED 0 |
 | M1 | Discoverability: one address per page, self-referencing canonical, sitemap of exactly the indexable pages, robots naming it; family pages say so | 108/108 | 34/34 | BLOCKED 0 |
 | M2a | Product structured data with no price, offer, availability or rating; sitemap `lastmod` from a committed content-hash manifest | 125/125 | 35/35 | BLOCKED 0 |
+| M3 (author's part) | QA harness, acceptance matrix T1–T18, offline clean-checkout run, lab Core Web Vitals; two defects found and fixed | 127/127 | 39/39 | BLOCKED 0 |
 
 `npm run verify` on the live-config variant: 13/13 at M1, 23/23 at M2a (17 URLs in its sitemap).
+
+**M3 is not closed.** The QA pass is in [`QA.md`](QA.md): 17 of 18 acceptance tests pass
+and the eighteenth is a human step. The gate still needs M2 complete, a review of the
+exact commit by someone other than the author, and Owner UAT.
 
 **M2 is only partly done.** M2a is the part that does not wait on the Owner. The rest of
 M2 — spec figures, prices, stock, category pages, the ribbon decision and the company
@@ -87,9 +95,9 @@ joins only when its content is live.
   they are not products; whether they become category pages is decision D-09.
 - **`lastmod` tracks the page's `<main>` only.** A change to the header, the footer or
   the structured data alone does not move a date.
-- **Model numbers that end in a unit letter read as figures.** `1950g` matches the figure
-  rule as "1950 g". It fails safe — a feature line naming such a model would be omitted,
-  not wrongly shown — and no current feature line does. Worth fixing before one does.
+- **Model numbers are recognised from the catalogue only.** `1950g` is no longer read as
+  "1950 g" because it is a known model token. A model number that is not in the catalogue
+  and ends in a unit letter would still read as a figure and be held back.
 - **DS3600 does not list its models.** The catalogue names the family but not which
   models ACS sells, so the page says it is a family and lists none rather than guessing.
 
@@ -105,7 +113,8 @@ joins only when its content is live.
 
 ## Not yet tested
 
-- Core Web Vitals. No lab measurement has been run.
+- Core Web Vitals in the field. A lab run passes (`QA.md`), on a local server with no
+  real images or web fonts; it says nothing about a deployed site.
 - Structured data against an external validator. It is parsed and checked against this
   project's own rules; it has not been run through Google's Rich Results Test or the
   schema.org validator, neither of which is reachable from the build container.
